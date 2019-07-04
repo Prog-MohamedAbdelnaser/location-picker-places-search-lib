@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">android_structure</string>
+
+    <string name="check_your_network_connection_and_try_again">تحقق من اتصال الشبكة لديك وحاول مرة أخرى</string>
+    <string name="timeout_error_message">يبدو أن الخادم يستغرق وقتًا طويلاً للرد ، يرجى المحاولة مرة أخرى في وقت لاحق</string>
+</resources>
