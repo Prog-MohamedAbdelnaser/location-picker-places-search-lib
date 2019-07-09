@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnRetry" type="id"/>
+    <item name="fragmentSplash" type="id"/>
+    <item name="appBarLout" type="id"/>
+    <item name="drawerNavigationView" type="id"/>
+    <item name="ivUser" type="id"/>
+    <item name="tvUserName" type="id"/>
+    <item name="profileFragment" type="id"/>
+    <item name="notificationsFragment" type="id"/>
+    <item name="fragmentSetting" type="id"/>
+    <item name="fragmentHelp" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="tvTitle" type="id" />
+    <item name="inputPassword" type="id" />
+    <item name="btnLogin" type="id" />
+    <item name="ivLogo" type="id" />
+</resources>

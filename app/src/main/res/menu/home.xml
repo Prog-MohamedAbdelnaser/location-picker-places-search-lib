@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="drawerNavigationView"
+>
+
+    <group android:checkableBehavior="single">
+
+
+    <item
+            android:id="@id/profileFragment"
+            android:icon="@drawable/ic_person"
+            android:title="@string/myaccount"/>
+
+
+    <item
+            android:id="@id/notificationsFragment"
+            android:icon="@drawable/ic_notifications"
+            android:title="@string/notifications"/>
+
+        <item
+            android:id="@id/fragmentSetting"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/setting"/>
+
+</group>
+
+    <item android:title="">
+        <menu>
+            <item
+                    android:id="@id/fragmentHelp"
+                    android:title="@string/help"/>
+        </menu>
+    </item>
+</menu>

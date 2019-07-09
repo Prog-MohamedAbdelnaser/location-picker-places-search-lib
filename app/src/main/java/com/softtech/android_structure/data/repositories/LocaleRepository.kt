@@ -10,7 +10,7 @@ class LocaleRepository(private val appPreference: AppPreference) {
 
     fun setLanguage(newLanguage: AppLanguages) = appPreference.putStringWithCommit(KEY_LANGUAGE_CODE, newLanguage.toString())
 
-    fun getLanguage(): String = appPreference.getString(KEY_LANGUAGE_CODE, AppLanguages.AR.toString())!!
+    fun getLanguage(): String = appPreference.getString(KEY_LANGUAGE_CODE, AppLanguages.EN.toString())!!
 
     fun isRtl(): Boolean = getLanguage() == AppLanguages.AR.toString()
 

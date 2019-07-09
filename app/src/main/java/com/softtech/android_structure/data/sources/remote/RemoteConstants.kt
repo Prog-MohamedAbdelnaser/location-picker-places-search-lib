@@ -1,6 +1,7 @@
-package com.nasmanpower.nas.data.sources.remote
+package com.softtech.android_structure.data.sources.remote
 
-import com.nasmanpower.nas.application.NasApp
+import com.softtech.android_structure.application.ApplicationClass
+
 
 object RemoteConstants {
     const val BASE_URL = "https://nasmanpower.com/api/" /*"http://nasmanpower.getsandbox.com/"*/
@@ -12,18 +13,18 @@ object RemoteConstants {
     const val READ_TIMEOUT: Long = 60
     const val WRITE_TIMEOUT: Long = 60
 
-    fun getBaseURL():String = if (NasApp.isTestVersion) BASE_TEST_URL else BASE_URL
-    fun getServerURL():String = if (NasApp.isTestVersion) TEST_SERVER_URL else REAL_SERVER_URL
+    fun getBaseURL():String = if (ApplicationClass.isTestVersion) BASE_TEST_URL else BASE_URL
+    fun getServerURL():String = if (ApplicationClass.isTestVersion) TEST_SERVER_URL else REAL_SERVER_URL
 
 
-     val ABOUT_US_AR = getServerURL() +"/home/phAboutUsAr"
-     val ABOUT_US_EN = getServerURL()+"/home/phAboutUsEn"
+     val ABOUT_US_AR = getServerURL() +"/nav_home/phAboutUsAr"
+     val ABOUT_US_EN = getServerURL() +"/nav_home/phAboutUsEn"
 
-     val TERMS_AR = "${getServerURL()}/home/PhConditionAndRightsAr"
-     val TERMS_EN = "${getServerURL()}/home/PhConditionAndRightsEn"
+     val TERMS_AR = "${getServerURL()}/nav_home/PhConditionAndRightsAr"
+     val TERMS_EN = "${getServerURL()}/nav_home/PhConditionAndRightsEn"
 
 
-     val BUSINESS_LINK_AR = "${getServerURL()}/home/phBusinessSectorsAr"
-     val BUSINESS_LINK_EN = "${getServerURL()}/home/phBusinessSectorsEn"
+     val BUSINESS_LINK_AR = "${getServerURL()}/nav_home/phBusinessSectorsAr"
+     val BUSINESS_LINK_EN = "${getServerURL()}/nav_home/phBusinessSectorsEn"
 
 }

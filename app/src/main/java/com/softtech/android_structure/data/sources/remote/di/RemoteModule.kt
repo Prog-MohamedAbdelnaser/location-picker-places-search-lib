@@ -1,7 +1,7 @@
 package com.nasmanpower.nas.data.sources.remote.di
 
 import com.google.gson.GsonBuilder
-import com.nasmanpower.nas.data.sources.remote.RemoteConstants
+import com.softtech.android_structure.data.sources.remote.RemoteConstants
 import com.softtech.android_structure.data.sources.remote.interceptor.ErrorHandlerInterceptor
 import com.softtech.android_structure.data.sources.remote.interceptor.HeadersInterceptor
 import okhttp3.Interceptor

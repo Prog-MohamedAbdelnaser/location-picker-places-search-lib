@@ -4,4 +4,25 @@
 
     <string name="check_your_network_connection_and_try_again">تحقق من اتصال الشبكة لديك وحاول مرة أخرى</string>
     <string name="timeout_error_message">يبدو أن الخادم يستغرق وقتًا طويلاً للرد ، يرجى المحاولة مرة أخرى في وقت لاحق</string>
+    <string name="ok">Ok</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="loading">Loading...</string>
+    <string name="login">Login</string>
+    <string name="tap_to_retry">Tab to retry</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="myaccount">My account</string>
+    <string name="notifications">Notifications</string>
+    <string name="setting">Settings</string>
+    <string name="help">Help</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">drawer_close</string>
+    <string name="user_name">Username</string>
 </resources>

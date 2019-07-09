@@ -3,13 +3,27 @@
           package="com.softtech.android_structure">
 
     <application
+            android:name=".application.ApplicationClass"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".features.splash.MainActivity">
+
+        <activity
+                android:name=".features.authorization.AuthorizationActivity"
+                android:theme="@style/AppThemeNoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+            >
+        </activity>
+        <activity android:name=".features.home.activities.HomeActivity"
+                  android:theme="@style/AppThemeNoActionBar"
+        >
+        </activity>
+        <activity
+                android:name=".features.splash.SplashActivity"
+                android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

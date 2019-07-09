@@ -6,6 +6,7 @@ import com.softtech.android_structure.di.DIConstants.KEY_CURRENT_LANGUAGE
 import com.softtech.android_structure.di.DIConstants.KEY_GLIDE_OKHTTP_CLIENT
 import com.softtech.android_structure.data.repositories.LocaleRepository
 import com.softtech.android_structure.data.repositories.StringsRepository
+import com.softtech.android_structure.data.repositories.UserRepository
 import com.softtech.android_structure.data.sources.local.AppPreference
 import com.softtech.android_structure.data.sources.local.AppPreferenceConstants.DEFAULT_LOCALE
 import com.softtech.android_structure.data.sources.local.AppPreferenceConstants.PREFERENCE_FILE_NAME
@@ -25,6 +26,10 @@ val applicationModule = module {
     single(PREFERENCE_FILE_NAME) { androidApplication().getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE) }
 
     single { AppPreference(get(PREFERENCE_FILE_NAME)) }
+
+    factory { UserRepository(get()) }
+
+
 
     single { LocaleRepository(get()) }
 
