@@ -8,11 +8,15 @@
     <item name="tvUserName" type="id"/>
     <item name="profileFragment" type="id"/>
     <item name="notificationsFragment" type="id"/>
+    <item name="homeFragment" type="id"/>
     <item name="fragmentSetting" type="id"/>
     <item name="fragmentHelp" type="id"/>
     <item name="toolbar" type="id"/>
+    <item name="guidelineStart" type="id"/>
     <item name="tvTitle" type="id" />
     <item name="inputPassword" type="id" />
     <item name="btnLogin" type="id" />
     <item name="ivLogo" type="id" />
+    <item name="loutLanguage" type="id" />
+    <item name="loutFeedback" type="id" />
 </resources>

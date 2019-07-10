@@ -11,7 +11,7 @@ import java.util.*
 
 class LanguageUseCases(private val localeRepository: LocaleRepository) {
 
-    fun changeLanguageTo(langaugeName: AppLanguages){
+    fun changeLanguageTo(langaugeName: String){
         Timber.i("language name ${langaugeName.toString().toLowerCase()}")
         localeRepository.setLanguage(langaugeName)
     }
@@ -40,6 +40,8 @@ class LanguageUseCases(private val localeRepository: LocaleRepository) {
         }
         return context.createConfigurationContext(config)
     }
+
+    fun getLanguage()=localeRepository.getLanguage()
 
    private fun setSystemLocale(config: Configuration, locale: Locale) {
         Locale.setDefault(locale)

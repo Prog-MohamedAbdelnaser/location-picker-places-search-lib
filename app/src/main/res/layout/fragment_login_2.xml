@@ -37,8 +37,9 @@
         android:layout_marginTop="16dp"
         android:layout_height="0dp">
 
-        <com.softtech.android_structure.base.widget.CircleImageView
+        <ImageView
             android:layout_width="120dp"
+            android:src="@drawable/rent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

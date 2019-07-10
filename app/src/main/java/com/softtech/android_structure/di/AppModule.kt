@@ -31,6 +31,7 @@ val applicationModule = module {
 
 
 
+
     single { LocaleRepository(get()) }
 
     single(DEFAULT_LOCALE) { get<LocaleRepository>().getLocale() }

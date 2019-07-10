@@ -11,5 +11,5 @@ import com.softtech.android_structure.R
 import com.softtech.android_structure.base.fragment.BaseFragment
 
 class HomeFragment : BaseFragment(){
-    override fun layoutResource(): Int =R.layout.fragment_setting
+    override fun layoutResource(): Int =R.layout.fragment_home
 }

@@ -3,9 +3,9 @@ package com.softtech.android_structure.data.repositories
 object RepositoriesConstants {
 
 
-    const val LANGUAGE_ENGLISH = "EN"
+    const val LANGUAGE_ENGLISH = "en"
 
-    const val LANGUAGE_ARABIC = "AR"
+    const val LANGUAGE_ARABIC = "ar"
 
     val SUPPORTED_LANGUAGES = listOf(LANGUAGE_ENGLISH, LANGUAGE_ARABIC)
 

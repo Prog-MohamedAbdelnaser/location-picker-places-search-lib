@@ -2,9 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/home"
-            app:startDestination="@id/fragmentSetting">
-
-    <fragment android:id="@id/fragmentSetting"
-              android:name="com.softtech.android_structure.features.settings.fragmentes.SettingFragment"
-              android:label="fragment_setting" tools:layout="@layout/fragment_setting"/>
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@id/homeFragment"
+        android:name="com.softtech.android_structure.features.home.fragmentes.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@id/fragmentSetting"
+        android:name="com.softtech.android_structure.features.settings.fragmentes.SettingFragment"
+        android:label="@string/setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@id/profileFragment"
+        android:name="com.softtech.android_structure.features.myaccount.fragmentes.MyAccountFragment"
+        android:label="@string/myaccount" />
 </navigation>

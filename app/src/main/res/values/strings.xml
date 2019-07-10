@@ -23,7 +23,7 @@
     <string name="notifications">Notifications</string>
     <string name="setting">Settings</string>
     <string name="help">Help</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2" >Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -40,4 +40,16 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">drawer_close</string>
     <string name="user_name">Username</string>
+    <string name="change_language">Change Language</string>
+    <string name="language">Language</string>
+    <string name="home">Home</string>
+    <string name="feedback">Feedback</string>
+    <string name="arabic">العربية</string>
+    <string name="english">English</string>
+    <string name="arabic_language_code" translatable="false">ar</string>
+    <string name="english_language_code" translatable="false">en</string>
+    <string name="select_language">Select Language</string>
+    <string name="option_not_activ_now">Option dons\'t activ now</string>
+    <string name="change_password">Change Password</string>
+    <string name="logout">Logout</string>
 </resources>
