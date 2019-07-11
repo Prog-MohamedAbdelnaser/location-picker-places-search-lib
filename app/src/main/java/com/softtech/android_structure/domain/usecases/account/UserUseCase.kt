@@ -23,7 +23,7 @@ class UserUseCase(private val userRepository: UserRepository) : MainModel() {
     }
 
 
-    fun getLogedUser(userState: MutableLiveData<CommonState<User>>):LiveData<CommonState<User>>{
+    fun getLogedUser():LiveData<CommonState<User>>{
         val userLiveData=MutableLiveData<CommonState<User>>()
         getDisposable(userLiveData,false)!!.
             add(getUserSingle()
