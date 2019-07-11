@@ -52,4 +52,7 @@
     <string name="option_not_activ_now">Option dons\'t activ now</string>
     <string name="change_password">Change Password</string>
     <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
+    <string name="are_you_sure_you_want_to_sign_out_q">Are you sure you want to sign out</string>
+
 </resources>

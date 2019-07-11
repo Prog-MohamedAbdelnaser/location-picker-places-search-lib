@@ -11,6 +11,7 @@ import com.nasmanpower.nas.data.sources.remote.di.remoteModule
 import com.softtech.android_structure.BuildConfig
 import com.softtech.android_structure.di.*
 import com.softtech.android_structure.features.authorization.di.loginModule
+import com.softtech.android_structure.features.myaccount.di.myAccountModule
 import com.softtech.android_structure.features.splash.di.splashModule
 import org.koin.android.ext.android.startKoin
 import timber.log.Timber
@@ -36,7 +37,8 @@ class ApplicationClass : Application() {
                         viewModelModule,
                         useCaseModule,
                         splashModule,
-                        loginModule
+                        loginModule,
+                    myAccountModule
                 )
         )
 

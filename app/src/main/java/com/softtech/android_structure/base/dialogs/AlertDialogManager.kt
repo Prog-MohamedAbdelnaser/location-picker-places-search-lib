@@ -22,4 +22,16 @@ object AlertDialogManager{
         return alertDialog
     }
 
+     fun createAlertDialog(context: Context, setMessage: String, title: String = "", okAction: DialogInterface.OnClickListener): AlertDialog {
+        val alertDialogBuilder: AlertDialog.Builder= AlertDialog.Builder(context)
+        alertDialogBuilder.setCancelable(false)
+        alertDialogBuilder.setMessage(setMessage)
+        alertDialogBuilder.setTitle(title)
+        alertDialogBuilder.setPositiveButton(context.getString(R.string.ok), okAction )
+        alertDialogBuilder.setNegativeButton(context.getString(R.string.cancel)) { dialogInterface, i -> dialogInterface.dismiss() }
+
+        val alertDialog: AlertDialog =alertDialogBuilder.create()
+        return alertDialog
+    }
+
 }

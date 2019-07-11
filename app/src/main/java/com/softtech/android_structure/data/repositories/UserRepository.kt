@@ -14,4 +14,10 @@ class UserRepository (private val appPreference: AppPreference){
 
     fun isLoged():Boolean = getLogedInUser()!=null && !getLogedInUser()!!.id.isNullOrEmpty()
 
+    fun saveUserData(user: User){
+        appPreference.saveObject(KEY_PREFRENCE_USER,user)
+    }
+    fun clear(){
+        appPreference.saveObject(KEY_PREFRENCE_USER,null)
+    }
 }

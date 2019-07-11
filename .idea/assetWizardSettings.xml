@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/home/abdelnaser/work/android/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_feedback_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/home/abdelnaser/work/android/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_power_settings_new_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_feedback" />
+                            <entry key="color" value="d60000" />
+                            <entry key="outputName" value="ic_power" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

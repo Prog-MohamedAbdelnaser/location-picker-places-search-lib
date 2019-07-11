@@ -19,4 +19,6 @@
     <item name="ivLogo" type="id" />
     <item name="loutLanguage" type="id" />
     <item name="loutFeedback" type="id" />
+    <item name="loutUser" type="id" />
+    <item name="loutLogout" type="id" />
 </resources>

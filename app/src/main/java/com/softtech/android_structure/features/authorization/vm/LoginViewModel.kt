@@ -4,27 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import androidx.lifecycle.Transformations
 import com.softtech.android_structure.R
+import com.softtech.android_structure.domain.usecases.account.UserUseCase
+import com.softtech.android_structure.entities.account.LoginParameters
+import com.softtech.android_structure.entities.account.User
+import com.softtech.android_structure.features.common.CommonState
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel(private val userUseCase: UserUseCase) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
-    val loginFormState: LiveData<LoginFormState> = _loginForm
+
+    private val _login = MutableLiveData<LoginParameters>()
+
+    var loginState=MutableLiveData<CommonState<User>>()
+    lateinit var  loginStateLiveData:LiveData<CommonState<User>>
+
+    fun login(loginParameters: LoginParameters){
+        //loginState  = userUseCase.login(loginParameters)
+
+    }
 
 
-  /*  private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
-
-    fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
-
-        if (result is Result.Success) {
-            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
-        }
-    }*/
 
     fun loginDataChanged(username: String, password: String) {
 
@@ -39,6 +40,7 @@ class LoginViewModel() : ViewModel() {
         }
     }
 
+
     // A placeholder username validation check
     private fun isUserNameValid(username: String): Boolean {
         return if (username.contains('@')) {
@@ -52,4 +54,16 @@ class LoginViewModel() : ViewModel() {
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5;
     }
+
+    val user: LiveData<CommonState<User>> = Transformations
+        .switchMap(_login) { login ->
+           userUseCase.login(login)
+        }
+
+    fun setLogin(login: LoginParameters?) {
+        if (_login.value != login) {
+            _login.value = login
+        }
+    }
+
 }

@@ -32,13 +32,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="myAccountFragment">
+                  <entry key="profileFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-194" />
-                            <option name="y" value="-243" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

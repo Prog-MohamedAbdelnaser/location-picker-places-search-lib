@@ -20,7 +20,7 @@ class AppPreference(private val preference: SharedPreferences) {
         preference.edit().putString(key, value).commit()
     }
 
-    fun  saveObject(key: String, t: Any) {
+    fun  saveObject(key: String, t: Any?) {
         putStringWithCommit(key, gson.toJson(t))
 
     }
