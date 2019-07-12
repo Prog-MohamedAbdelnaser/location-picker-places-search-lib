@@ -88,6 +88,9 @@ dependencies {
     implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+
     // koin
     implementation "org.koin:koin-core:$versions.koin"
     testImplementation "org.koin:koin-test:$versions.koin"

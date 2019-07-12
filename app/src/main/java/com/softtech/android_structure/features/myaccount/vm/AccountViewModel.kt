@@ -9,11 +9,13 @@ import com.softtech.android_structure.features.common.CommonState
 
 class AccountViewModel(private val userUseCase: UserUseCase) : ViewModel() {
 
-    private var userState=MutableLiveData<CommonState<User>>()
-    val userStateLiveData : LiveData<CommonState<User>> = userUseCase.getLogedUser(userState)
 
+    private var userState=MutableLiveData<CommonState<User>>()
+    val userStateLiveData : LiveData<CommonState<User>> = userUseCase.getLogedUser()
 
     fun clearUserData(){
         userUseCase.clearUser()
     }
+
+
 }
