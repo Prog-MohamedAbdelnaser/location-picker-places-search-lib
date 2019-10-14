@@ -119,4 +119,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$versions.timber"
 
 
+    //otpview
+    implementation 'com.github.aabhasr1:OtpView:1.0.6'
+
 }

@@ -23,7 +23,7 @@
     <string name="notifications">Notifications</string>
     <string name="setting">Settings</string>
     <string name="help">Help</string>
-    <string name="title_activity_main2" >Main2Activity</string>
+    <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -54,5 +54,18 @@
     <string name="logout">Logout</string>
     <string name="cancel">Cancel</string>
     <string name="are_you_sure_you_want_to_sign_out_q">Are you sure you want to sign out</string>
+    <string name="forget_password">ForgetPassword ?</string>
+    <string name="dont_have_an_account_q">Don\'t have an account?</string>
+    <string name="register_underlined"><u>Register</u></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rest_password">Rest Password</string>
+    <string name="enter_phone_number">Please enter your phone number to rest your password</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="next">Next</string>
+    <string name="verification_phone">Verification Phone</string>
+    <string name="ask_verification_code">Please enter the 4 digit code sent to your phone</string>
+    <string name="resend_code">Resend code</string>
 
 </resources>

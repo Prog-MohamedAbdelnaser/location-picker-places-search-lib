@@ -1,7 +1,7 @@
-package com.softtech.android_structure.features.authorization.di
+package com.softtech.android_structure.features.authorization.login.di
 
 import com.softtech.android_structure.domain.usecases.account.UserUseCase
-import com.softtech.android_structure.features.authorization.vm.LoginViewModel
+import com.softtech.android_structure.features.authorization.login.vm.LoginViewModel
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 

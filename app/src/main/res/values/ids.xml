@@ -21,4 +21,10 @@
     <item name="loutFeedback" type="id" />
     <item name="loutUser" type="id" />
     <item name="loutLogout" type="id" />
+    <item name="tvDontHaveAnAccount" type="id" />
+    <item name="tvRegister" type="id" />
+    <item name="inputPhoneLout" type="id" />
+    <item name="btnNext" type="id" />
+    <item name="tvResend" type="id" />
+    <item name="tvTimer" type="id" />
 </resources>

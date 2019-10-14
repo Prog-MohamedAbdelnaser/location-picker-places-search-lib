@@ -1,4 +1,4 @@
-package com.softtech.android_structure.features.authorization.vm
+package com.softtech.android_structure.features.authorization.login.vm
 
 /**
  * Data validation state of the login form.

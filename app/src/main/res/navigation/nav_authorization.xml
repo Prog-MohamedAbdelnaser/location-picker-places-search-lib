@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/navAuth"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.softtech.android_structure.features.authorization.login.fragmentes.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login"
+        />
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.softtech.android_structure.features.forgetpassword.fragmentes.ForgetPasswordFragment"
+        android:label="ForgetPasswordFragment"
+        tools:layout="@layout/fragment_forget_password"
+        />
+</navigation>

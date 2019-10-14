@@ -31,4 +31,49 @@
     <style name="InputTextStyle">
         <item name="android:textDirection">locale</item>
     </style>
+
+    <style name="AppTheme.ClickableTextView" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="appNormalButton">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:background">@drawable/blue_fill__rounded_color</item>
+    </style>
+
+    <style name="ButtontextStyle" parent="appBoldTextStyle">
+        <item name="android:textColor">@color/colorFontDark</item>
+        <item name="android:background">@drawable/blue_fill__rounded_color</item>
+    </style>
+    <style name="ToolbarWhiteStyle" parent="appBoldTextStyle">
+        <item name="android:textColor">@color/colorFontDark</item>
+
+    </style>
+
+
+    <style name="appBoldTextStyle">
+        <item name="android:textColor">@color/colorFontDark</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:fontFamily">@font/gothic_bold</item>
+    </style>
+
+    <style name="appSemiBoldTextStyle">
+        <item name="android:textColor">@color/colorFontDark</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:fontFamily">@font/gothic_bold_italic</item>
+    </style>
+
+
+    <style name="appRegularTextStyle">
+        <item name="android:textDirection">locale</item>
+        <item name="android:fontFamily">@font/gothic_regular</item>
+    </style>
+
+
+
+
+
 </resources>

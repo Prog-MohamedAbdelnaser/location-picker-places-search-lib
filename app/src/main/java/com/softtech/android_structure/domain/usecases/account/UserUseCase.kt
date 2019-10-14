@@ -7,19 +7,19 @@ import com.softtech.android_structure.data.repositories.UserRepository
 import com.softtech.android_structure.entities.account.LoginParameters
 import com.softtech.android_structure.entities.account.User
 import com.softtech.android_structure.features.common.CommonState
+import com.softtech.android_structure.features.common.LoginStates
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class UserUseCase(private val userRepository: UserRepository) : MainModel() {
 
-    fun login(loginParameters: LoginParameters):LiveData<CommonState<User>>{
-        val loginLiveData=MutableLiveData<CommonState<User>>()
+    fun login(loginParameters: LoginParameters,loginLiveData: MutableLiveData<CommonState<User>>){
+
         loginLiveData.value=CommonState.LoadingShow
-       userRepository.saveUserData(User("1",loginParameters.userName))
+       userRepository.saveUserData(User("1",loginParameters.phoneNumber))
         loginLiveData.value=CommonState.LoadingFinished
-        loginLiveData.value=CommonState.Success(User("1",loginParameters.userName))
-        return loginLiveData
+        loginLiveData.value=CommonState.Success(User("1",loginParameters.phoneNumber))
     }
 
 

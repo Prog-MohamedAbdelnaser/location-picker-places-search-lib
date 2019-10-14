@@ -1,21 +1,21 @@
-package com.softtech.android_structure.features.authorization.fragmentes
+package com.softtech.android_structure.features.authorization.login.fragmentes
 
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.lifecycle.Observer
-import com.jakewharton.rxbinding.view.RxView
+import androidx.navigation.fragment.findNavController
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.fragment.BaseFragment
-import com.softtech.android_structure.features.authorization.vm.LoginFormState
-import com.softtech.android_structure.features.authorization.vm.LoginViewModel
+import com.softtech.android_structure.features.authorization.login.vm.LoginViewModel
 import com.softtech.android_structure.features.home.activities.HomeActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.softtech.android_structure.entities.account.LoginParameters
 import com.softtech.android_structure.entities.account.User
+import com.softtech.android_structure.features.authorization.verification.activities.VerificationActivity
 import com.softtech.android_structure.features.common.CommonState
 import timber.log.Timber
 
@@ -31,9 +31,13 @@ class LoginFragment : BaseFragment(){
 
     private fun initEventHandler() {
         btnLogin.setOnClickListener {
-            if (validate()) loginViewModel.setLogin(getLoginParams())
+            if (validate()) loginViewModel.login(getLoginParams())
         }
 
+
+        tvForgetPassword.setOnClickListener {
+            findNavController().navigate(R.id.forgetPasswordFragment)
+        }
 
         RxTextView.textChanges(inputPassword)
             .subscribe { charSequence ->
@@ -46,12 +50,16 @@ class LoginFragment : BaseFragment(){
             }
     }
 
-    private fun getLoginParams()=LoginParameters(inputUsername.text.toString(),inputPassword.text.toString())
+    private fun getLoginParams()= LoginParameters(inputUsername.text.toString(),inputPassword.text.toString())
 
+    fun navigateToVerificationScreen(){
+        val intent=Intent(requireContext(),VerificationActivity::class.java)
+        startActivityForResult(intent,0)
+    }
 
     private fun initObservers() {
         loginViewModel.apply {
-            user.observe(this@LoginFragment, Observer {
+            loginStateLiveData.observe(this@LoginFragment, Observer {
                 handleLoginState(it)
             })
         }
@@ -62,10 +70,10 @@ class LoginFragment : BaseFragment(){
         Timber.i("state is ${state.toString()}")
         when(state){
            is CommonState.LoadingShow->showProgressDialog()
-           is CommonState.LoadingFinished->{}
-            is CommonState.Success->{ Handler(Looper.getMainLooper()).postDelayed({
-                hideProgressDialog()
-                login()},4000) }
+           is CommonState.LoadingFinished->{hideProgressDialog() }
+            is CommonState.Success->{
+                navigateToVerificationScreen()
+            }
         }
     }
 
@@ -92,4 +100,8 @@ class LoginFragment : BaseFragment(){
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        login()
+    }
 }
