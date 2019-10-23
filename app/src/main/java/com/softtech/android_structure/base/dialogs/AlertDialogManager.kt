@@ -8,11 +8,11 @@ import com.softtech.android_structure.R
 object AlertDialogManager{
 
     fun showAlertMessage(context: Context, setMessage: String) {
-        createOneButtonAlertDialog(context, setMessage,"",DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+        createOneButtonAlertDialog(context, setMessage,"",DialogInterface.OnClickListener { dialog, which -> dialog.cancel() }).show()
     }
 
 
-    private fun createOneButtonAlertDialog(context: Context, setMessage: String, title: String = "", okAction: DialogInterface.OnClickListener): AlertDialog {
+     fun createOneButtonAlertDialog(context: Context, setMessage: String, title: String = "", okAction: DialogInterface.OnClickListener): AlertDialog {
         val alertDialogBuilder: AlertDialog.Builder= AlertDialog.Builder(context)
         alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.setMessage(setMessage)

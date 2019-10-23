@@ -1,4 +1,4 @@
-package com.softtech.android_structure.entities
+package com.softtech.android_structure.domain.entities
 
 @Suppress("SpellCheckingInspection")
 object EntitiesConstants {

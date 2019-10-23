@@ -2,7 +2,7 @@ package com.softtech.android_structure.data.sources.remote.interceptor
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.nasmanpower.nas.data.exceptions.NetworkException
+import com.softtech.android_structure.data.exceptions.NetworkException
 import com.softtech.android_structure.data.exceptions.APIException
 import com.softtech.android_structure.data.repositories.StringsRepository
 import okhttp3.Interceptor

@@ -1,3 +1,3 @@
-package com.nasmanpower.nas.data.exceptions
+package com.softtech.android_structure.data.exceptions
 
 class NetworkException(override var message: String) : RuntimeException()

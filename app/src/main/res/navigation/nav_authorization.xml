@@ -16,4 +16,8 @@
         android:label="ForgetPasswordFragment"
         tools:layout="@layout/fragment_forget_password"
         />
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.softtech.android_structure.features.authorization.signup.fragmentes.SignupFragment"
+        android:label="SignupFragment" />
 </navigation>

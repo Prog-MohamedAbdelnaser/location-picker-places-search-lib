@@ -122,4 +122,7 @@ dependencies {
     //otpview
     implementation 'com.github.aabhasr1:OtpView:1.0.6'
 
+    //phone validation
+    implementation "com.googlecode.libphonenumber:libphonenumber:$versions.phoneNumberValidation"
+
 }

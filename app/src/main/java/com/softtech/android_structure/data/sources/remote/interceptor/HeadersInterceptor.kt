@@ -1,5 +1,6 @@
 package com.softtech.android_structure.data.sources.remote.interceptor
 
+import com.softtech.android_structure.data.repositories.UserRepository
 import com.softtech.android_structure.di.DIConstants
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -7,7 +8,7 @@ import okhttp3.Response
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.get
 
-class HeadersInterceptor(private val mainRepository: Any) : Interceptor, KoinComponent {
+class HeadersInterceptor(private val userRepository: UserRepository) : Interceptor, KoinComponent {
 
     private val keyAuthorization = "authorization"
     private val keyApiKey = "apiKey"

@@ -1,4 +1,4 @@
-package com.nasmanpower.nas.data.sources.remote.di
+package com.softtech.android_structure.data.sources.remote.di
 
 import com.google.gson.GsonBuilder
 import com.softtech.android_structure.data.sources.remote.RemoteConstants

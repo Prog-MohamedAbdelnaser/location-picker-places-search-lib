@@ -9,18 +9,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".features.authorization.verification.activities.VerificationActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        >
+        <activity android:name=".features.authorization.verification.activities.VerificationActivity"
+            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar"
+          />
         <activity
             android:name=".features.authorization.AuthorizationActivity"
-            android:theme="@style/AppThemeNoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".features.home.activities.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+            android:theme="@style/AppThemeNoActionBar"/>
+
         <activity
             android:name=".features.splash.SplashActivity"
-            android:theme="@style/AppThemeNoActionBar">
+            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

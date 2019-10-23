@@ -3,7 +3,7 @@ package com.softtech.android_structure.data.repositories
 import com.softtech.android_structure.data.repositories.RepositoriesConstants.KEY_LANGUAGE_CODE
 import com.softtech.android_structure.data.repositories.RepositoriesConstants.LANGUAGE_ENGLISH
 import com.softtech.android_structure.data.sources.local.AppPreference
-import com.softtech.android_structure.entities.AppLanguages
+import com.softtech.android_structure.domain.entities.AppLanguages
 import java.util.*
 
 

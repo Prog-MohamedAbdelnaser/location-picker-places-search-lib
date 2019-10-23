@@ -1,49 +1,30 @@
 package com.softtech.android_structure.di
 
+import com.homeex.domain.errors.ValidationTypeValues
 import com.softtech.android_structure.R
+import com.softtech.android_structure.domain.validations.EmailValidator
+import com.softtech.android_structure.domain.validations.MinLengthValidator
+import com.softtech.android_structure.domain.validations.PhoneNumberValidator
+import com.softtech.android_structure.domain.validations.RegisterValidator
+import com.softtech.android_structure.domain.validations.ValidationConstants.FULL_NAME_MIN_LENGTH_VALIDATOR
+import com.softtech.android_structure.domain.validations.ValidationConstants.MIN_LENGTH_VALIDATOR
+import com.softtech.android_structure.domain.validations.ValidationConstants.PASSWORD_MIN_LENGTH_VALIDATOR
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
-import org.koin.experimental.builder.single
 
 val validatorModule = module {
-//
-//    single { EmailValidator(androidContext().resources.getString(R.string.invalid_email)) }
-//
-//    single(FULL_NAME_MIN_LENGTH_VALIDATOR) {
-//        MinLengthValidator(
-//                androidContext().resources.getString(R.string.invalid_full_name),
-//                androidContext().resources.getInteger(R.integer.full_name_min_length)
-//        )
-//    }
-//
-//    single(FULL_NAME_MAX_LENGTH_VALIDATOR) {
-//        MaxLengthValidator(
-//                androidContext().resources.getString(R.string.invalid_full_name),
-//                androidContext().resources.getInteger(R.integer.full_name_max_length)
-//        )
-//    }
-//
-//
-//
-//    single(FULL_NAME_LENGTH_VALIDATOR) {
-//        LengthValidator(get(FULL_NAME_MIN_LENGTH_VALIDATOR), get(FULL_NAME_MAX_LENGTH_VALIDATOR))
-//    }
-//
-//
-//
-//    single(ValidationConstants.PROMOTION_CODE_MIN_LENGTH_VALIDATOR){
-//        MinLengthValidator(
-//                androidContext().resources.getString(R.string.invalid_promo_code),
-//                androidContext().resources.getInteger(R.integer.promo_code_min_length)
-//        )
-//    }
-//
-//
-//
-//    single { PhoneNumberValidator(get(), androidContext().getString(R.string.invalid_phone_number)) }
-//
-//    factory { (requestCode: Int) ->
-//        NotEmptyValidator(requestCode, androidContext().getString(R.string.can_not_be_empty))
-//    }
+
+    factory { PhoneNumberValidator(androidContext().getString(R.string.invalid_phone)) }
+
+    factory { EmailValidator(androidContext().getString(R.string.invalid_email)) }
+
+    single (MIN_LENGTH_VALIDATOR){ MinLengthValidator(androidContext().getString(R.string.fill_data),androidContext().resources.getInteger(R.integer.min_length)) }
+
+    single (FULL_NAME_MIN_LENGTH_VALIDATOR){ MinLengthValidator(androidContext().getString(R.string.invalid_name),androidContext().resources.getInteger(R.integer.min_length), ValidationTypeValues.USER_NAME) }
+
+    single (PASSWORD_MIN_LENGTH_VALIDATOR){ MinLengthValidator(androidContext().getString(R.string.invalid_password),androidContext().resources.getInteger(R.integer.min_length), ValidationTypeValues.PASSWORD) }
+
+
+
 
 }

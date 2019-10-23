@@ -2,6 +2,7 @@ package com.softtech.android_structure.di
 
 import android.content.Context
 import com.nasmanpower.nas.data.sources.resources.AppResources
+import com.softtech.android_structure.data.repositories.DeviceInfoRepostory
 import com.softtech.android_structure.di.DIConstants.KEY_CURRENT_LANGUAGE
 import com.softtech.android_structure.di.DIConstants.KEY_GLIDE_OKHTTP_CLIENT
 import com.softtech.android_structure.data.repositories.LocaleRepository
@@ -10,6 +11,7 @@ import com.softtech.android_structure.data.repositories.UserRepository
 import com.softtech.android_structure.data.sources.local.AppPreference
 import com.softtech.android_structure.data.sources.local.AppPreferenceConstants.DEFAULT_LOCALE
 import com.softtech.android_structure.data.sources.local.AppPreferenceConstants.PREFERENCE_FILE_NAME
+import com.softtech.android_structure.di.DIConstants.KEY_DEVICE_ID
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
@@ -30,6 +32,9 @@ val applicationModule = module {
     factory { UserRepository(get()) }
 
 
+    single { DeviceInfoRepostory(get(),get()) }
+
+    factory(KEY_DEVICE_ID) { get<DeviceInfoRepostory>().getDeviceID()!! }
 
 
     single { LocaleRepository(get()) }

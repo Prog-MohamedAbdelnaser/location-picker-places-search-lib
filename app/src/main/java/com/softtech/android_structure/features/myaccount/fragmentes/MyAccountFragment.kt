@@ -1,19 +1,13 @@
 package com.softtech.android_structure.features.myaccount.fragmentes
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.dialogs.AlertDialogManager.createAlertDialog
 import com.softtech.android_structure.base.fragment.BaseFragment
-import com.softtech.android_structure.entities.account.User
+import com.softtech.android_structure.domain.entities.account.User
 import com.softtech.android_structure.features.authorization.AuthorizationActivity
 import com.softtech.android_structure.features.common.CommonState
 import com.softtech.android_structure.features.myaccount.vm.AccountViewModel

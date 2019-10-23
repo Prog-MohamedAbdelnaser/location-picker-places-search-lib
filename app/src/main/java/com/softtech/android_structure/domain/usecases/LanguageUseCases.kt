@@ -1,11 +1,9 @@
 package com.softtech.android_structure.domain.usecases
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import com.softtech.android_structure.data.repositories.LocaleRepository
-import com.softtech.android_structure.entities.AppLanguages
 import timber.log.Timber
 import java.util.*
 

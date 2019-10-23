@@ -1,8 +1,6 @@
 package com.softtech.android_structure.features.home.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
@@ -15,7 +13,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.activity.BaseActivity
-import com.softtech.android_structure.entities.account.User
+import com.softtech.android_structure.domain.entities.account.User
 import com.softtech.android_structure.features.common.CommonState
 import com.softtech.android_structure.features.common.hideKeyboard
 import com.softtech.android_structure.features.myaccount.vm.AccountViewModel
@@ -23,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.nav_header_home.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import java.util.*
 
 class HomeActivity : BaseActivity(), NavController.OnDestinationChangedListener  {
 

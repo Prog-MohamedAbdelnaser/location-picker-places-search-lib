@@ -6,10 +6,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import com.nasmanpower.nas.data.sources.remote.di.remoteModule
+import com.softtech.android_structure.data.sources.remote.di.remoteModule
 import com.softtech.android_structure.BuildConfig
 import com.softtech.android_structure.di.*
 import com.softtech.android_structure.features.authorization.login.di.loginModule
+import com.softtech.android_structure.features.authorization.signup.di.signupModule
 import com.softtech.android_structure.features.myaccount.di.myAccountModule
 import com.softtech.android_structure.features.splash.di.splashModule
 import org.koin.android.ext.android.startKoin
@@ -36,6 +37,7 @@ class ApplicationClass : Application() {
                         useCaseModule,
                         splashModule,
                         loginModule,
+                        signupModule,
                     myAccountModule
                 )
         )

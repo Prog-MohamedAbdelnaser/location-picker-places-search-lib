@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -21,6 +21,13 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme.NoActionBar_WhiteStatusBar" parent="AppTheme" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@color/colorWhite</item>
+    </style>
 
     <style name="TextAppearanceLabel">
         <item name="android:textSize">16sp</item>
@@ -53,6 +60,12 @@
 
     </style>
 
+
+    <style name="textViewLabel" parent="appRegularTextStyle">
+        <item name="android:textDirection">locale</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorFontDark</item>
+    </style>
 
     <style name="appBoldTextStyle">
         <item name="android:textColor">@color/colorFontDark</item>

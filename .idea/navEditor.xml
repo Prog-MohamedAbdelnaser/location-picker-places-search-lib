@@ -32,6 +32,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="signupFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="546" />
+                            <option name="y" value="113" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                 </map>
               </option>
             </LayoutPositions>

@@ -27,4 +27,8 @@
     <item name="btnNext" type="id" />
     <item name="tvResend" type="id" />
     <item name="tvTimer" type="id" />
+    <item name="inputPhoneNumber" type="id" />
+    <item name="tvAddress" type="id" />
+    <item name="tvLogin" type="id" />
+    <item name="btnSignUp" type="id" />
 </resources>

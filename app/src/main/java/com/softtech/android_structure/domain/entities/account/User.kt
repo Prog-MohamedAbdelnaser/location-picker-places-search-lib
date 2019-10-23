@@ -1,4 +1,4 @@
-package com.softtech.android_structure.entities.account
+package com.softtech.android_structure.domain.entities.account
 
 import com.google.gson.annotations.SerializedName
 
