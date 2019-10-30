@@ -1,11 +1,10 @@
 package com.softtech.android_structure.di
 
-import com.homeex.domain.errors.ValidationTypeValues
+import com.softtech.android_structure.domain.errors.ValidationTypeValues
 import com.softtech.android_structure.R
 import com.softtech.android_structure.domain.validations.EmailValidator
 import com.softtech.android_structure.domain.validations.MinLengthValidator
 import com.softtech.android_structure.domain.validations.PhoneNumberValidator
-import com.softtech.android_structure.domain.validations.RegisterValidator
 import com.softtech.android_structure.domain.validations.ValidationConstants.FULL_NAME_MIN_LENGTH_VALIDATOR
 import com.softtech.android_structure.domain.validations.ValidationConstants.MIN_LENGTH_VALIDATOR
 import com.softtech.android_structure.domain.validations.ValidationConstants.PASSWORD_MIN_LENGTH_VALIDATOR

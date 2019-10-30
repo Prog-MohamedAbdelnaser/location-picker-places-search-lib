@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.homeex.domain.errors.ValidationTypeValues
+import com.softtech.android_structure.domain.errors.ValidationTypeValues
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.fragment.BaseFragment
 import com.softtech.android_structure.features.authorization.login.vm.LoginViewModel
@@ -18,12 +18,10 @@ import com.softtech.android_structure.base.dialogs.AlertDialogManager
 import com.softtech.android_structure.base.extension.handleApiErrorWithSnackBar
 import com.softtech.android_structure.di.DIConstants
 import com.softtech.android_structure.domain.entities.account.LoginParameters
-import com.softtech.android_structure.domain.entities.account.User
 import com.softtech.android_structure.domain.errors.CompositeValidationException
 import com.softtech.android_structure.domain.errors.ValidationException
 import com.softtech.android_structure.features.authorization.verification.activities.VerificationActivity
 import com.softtech.android_structure.features.common.CommonState
-import com.softtech.android_structure.features.common.showErrorSnackbar
 import org.koin.standalone.get
 import timber.log.Timber
 

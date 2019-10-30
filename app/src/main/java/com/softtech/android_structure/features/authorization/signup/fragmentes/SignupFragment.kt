@@ -1,22 +1,14 @@
 package com.softtech.android_structure.features.authorization.signup.fragmentes
 
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import com.homeex.domain.errors.ValidationTypeValues
+import com.softtech.android_structure.domain.errors.ValidationTypeValues
 
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.dialogs.AlertDialogManager
 import com.softtech.android_structure.base.extension.handleApiErrorWithSnackBar
 import com.softtech.android_structure.base.fragment.BaseFragment
-import com.softtech.android_structure.data.repositories.StringsRepository
 import com.softtech.android_structure.di.DIConstants
 import com.softtech.android_structure.domain.entities.account.RegisterParams
 import com.softtech.android_structure.domain.errors.CompositeValidationException
@@ -24,13 +16,12 @@ import com.softtech.android_structure.domain.errors.ValidationException
 import com.softtech.android_structure.features.authorization.signup.vm.SignupViewModel
 import com.softtech.android_structure.features.authorization.verification.activities.VerificationActivity
 import com.softtech.android_structure.features.common.CommonState
-import kotlinx.android.synthetic.main.fragment_login.*
+import com.softtech.android_structure.features.temp.activities.LocationActivity
 import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.inputPassword
 import kotlinx.android.synthetic.main.fragment_signup.inputUsername
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.standalone.get
-import org.koin.standalone.inject
 
 
 class SignupFragment : BaseFragment() {
@@ -54,6 +45,11 @@ class SignupFragment : BaseFragment() {
         btnSignUp.setOnClickListener {
             signupViewModel.attempSignup(createRegisterParams())
         }
+
+        tvAddress.setOnClickListener {
+            LocationActivity.startLocationPicker(requireActivity())
+        }
+
     }
 
     private fun createRegisterParams(): RegisterParams {

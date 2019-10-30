@@ -13,6 +13,7 @@ import com.softtech.android_structure.features.authorization.login.di.loginModul
 import com.softtech.android_structure.features.authorization.signup.di.signupModule
 import com.softtech.android_structure.features.myaccount.di.myAccountModule
 import com.softtech.android_structure.features.splash.di.splashModule
+import com.softtech.android_structure.features.temp.di.locationModule
 import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 
@@ -38,7 +39,8 @@ class ApplicationClass : Application() {
                         splashModule,
                         loginModule,
                         signupModule,
-                    myAccountModule
+                    myAccountModule,
+                    locationModule
                 )
         )
 

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.softtech.android_structure">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".application.ApplicationClass"
@@ -10,19 +13,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        >
-        <activity android:name=".features.authorization.verification.activities.VerificationActivity"
-            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar"
-          />
+        android:usesCleartextTraffic="true">
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+
+        <activity android:name=".features.temp.activities.LocationActivity"></activity>
+
+        <activity
+            android:name=".features.authorization.verification.activities.VerificationActivity"
+            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar" />
         <activity
             android:name=".features.authorization.AuthorizationActivity"
             android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".features.home.activities.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar"/>
-
+            android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".features.splash.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar">
@@ -32,6 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".base.utility.EnableLocationServiceSetting"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+             />
+
     </application>
 
 </manifest>

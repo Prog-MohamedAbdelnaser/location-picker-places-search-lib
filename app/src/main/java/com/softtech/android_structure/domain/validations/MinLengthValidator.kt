@@ -2,7 +2,7 @@ package com.softtech.android_structure.domain.validations
 
 import com.softtech.android_structure.domain.errors.ValidationException
 import com.softtech.android_structure.domain.errors.ValidationType
-import com.homeex.domain.errors.ValidationTypeValues
+import com.softtech.android_structure.domain.errors.ValidationTypeValues
 import io.reactivex.Single
 import timber.log.Timber
 

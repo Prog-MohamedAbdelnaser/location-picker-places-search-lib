@@ -1,4 +1,4 @@
-package com.homeex.domain.errors
+package com.softtech.android_structure.domain.errors
 
 /**
  *

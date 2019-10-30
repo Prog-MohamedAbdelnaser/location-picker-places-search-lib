@@ -74,6 +74,28 @@
             </LayoutPositions>
           </value>
         </entry>
+        <entry key="nav_location.xml">
+          <value>
+            <LayoutPositions>
+              <option name="myPositions">
+                <map>
+                  <entry key="locationFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="283" />
+                            <option name="y" value="233" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </LayoutPositions>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

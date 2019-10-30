@@ -1,10 +1,9 @@
 package com.softtech.android_structure.domain.validations
-import android.util.Patterns
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.PhoneNumberUtil.*
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
-import com.homeex.domain.errors.ValidationTypeValues
+import com.softtech.android_structure.domain.errors.ValidationTypeValues
 import com.softtech.android_structure.domain.errors.ValidationException
 import com.softtech.android_structure.domain.validations.ValidationConstants.EGYPT_COUNTRY_CODE
 import io.reactivex.Single

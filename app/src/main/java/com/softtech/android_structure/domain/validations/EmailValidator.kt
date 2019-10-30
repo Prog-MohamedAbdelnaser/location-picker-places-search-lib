@@ -1,7 +1,7 @@
 package com.softtech.android_structure.domain.validations
 
 import com.softtech.android_structure.domain.errors.ValidationException
-import com.homeex.domain.errors.ValidationTypeValues.EMAIL
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.EMAIL
 import io.reactivex.Single
 import timber.log.Timber
 import java.util.regex.Pattern

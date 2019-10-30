@@ -1,15 +1,15 @@
 package com.softtech.android_structure.domain.errors
 
 import androidx.annotation.IntDef
-import com.homeex.domain.errors.ValidationTypeValues.COMPOSITE
-import com.homeex.domain.errors.ValidationTypeValues.EMAIL
-import com.homeex.domain.errors.ValidationTypeValues.ID_NUMBER
-import com.homeex.domain.errors.ValidationTypeValues.LARGER_THAN
-import com.homeex.domain.errors.ValidationTypeValues.LENGTH
-import com.homeex.domain.errors.ValidationTypeValues.LESS_THAN
-import com.homeex.domain.errors.ValidationTypeValues.LOCATION
-import com.homeex.domain.errors.ValidationTypeValues.PHONE
-import com.homeex.domain.errors.ValidationTypeValues.REGEX
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.COMPOSITE
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.EMAIL
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.ID_NUMBER
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.LARGER_THAN
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.LENGTH
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.LESS_THAN
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.LOCATION
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.PHONE
+import com.softtech.android_structure.domain.errors.ValidationTypeValues.REGEX
 
 
 /**

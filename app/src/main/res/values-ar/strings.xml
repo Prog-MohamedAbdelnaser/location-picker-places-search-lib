@@ -59,4 +59,9 @@
     <string name="invalid_email">Invalid Email</string>
     <string name="fill_data">Fill data</string>
     <string name="invalid_name">Invalid name</string>
+    <string name="loading_address">Loading Address...</string>
+    <string name="app_wont_be_ablet_o_detect_your_location">App won\'t be able to detect your location</string>
+    <string name="service_not_available">Service not available</string>
+    <string name="location_not_valid">location not valid</string>
+    <string name="no_address_found">No address found</string>
 </resources>

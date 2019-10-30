@@ -31,4 +31,5 @@
     <item name="tvAddress" type="id" />
     <item name="tvLogin" type="id" />
     <item name="btnSignUp" type="id" />
+    <item name="navHostFragment" type="id" />
 </resources>
