@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import com.softtech.android_structure.R
+import com.softtech.android_structure.base.utility.AppUtility
 
 object AlertDialogManager{
 
@@ -32,6 +33,11 @@ object AlertDialogManager{
 
         val alertDialog: AlertDialog =alertDialogBuilder.create()
         return alertDialog
+    }
+
+    fun popupGoAppSetting(context: Context){
+        createAlertDialog(context,context.getString(R.string.permission_required_body),
+            okAction = DialogInterface.OnClickListener { dialogInterface, i -> AppUtility.openSetting(context) }).show()
     }
 
 }

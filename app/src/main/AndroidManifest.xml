@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.softtech.android_structure">
-    <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:name=".application.ApplicationClass"
@@ -14,15 +19,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".features.chat.activities.ChatRooms"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
+        <activity
+            android:name=".features.chat.activities.ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-
-        <activity android:name=".features.temp.activities.LocationActivity"></activity>
-
+        <activity android:name=".features.temp.activities.LocationActivity" />
         <activity
             android:name=".features.authorization.verification.activities.VerificationActivity"
             android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar" />
@@ -42,13 +51,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".base.utility.EnableLocationServiceSetting"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-             />
-
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

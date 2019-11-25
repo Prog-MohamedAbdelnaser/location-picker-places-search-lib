@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<I>(items: ArrayList<I>? = null, @LayoutRes private var itemLayoutRes: Int) : RecyclerView.Adapter<BaseViewHolder<I>>() {
+abstract class BaseAdapter<I>(items: ArrayList<I>? = null, @LayoutRes private var itemLayoutRes: Int?=null) : RecyclerView.Adapter<BaseViewHolder<I>>() {
 
     private val items: MutableList<I> = items ?: ArrayList()
 
@@ -30,11 +30,15 @@ abstract class BaseAdapter<I>(items: ArrayList<I>? = null, @LayoutRes private va
         if (newItems.isNullOrEmpty().not()) {
             items.addAll(newItems)
         }
+
         notifyDataSetChanged()
     }
 
 
 
+    fun getEditableList(): MutableList<I> {
+        return items
+    }
     fun getLastPosition():Int{
         return items.size-1
     }
@@ -44,6 +48,11 @@ abstract class BaseAdapter<I>(items: ArrayList<I>? = null, @LayoutRes private va
     }
 
     fun addItem(item: I) {
+        items.add(item)
+        notifyItemInserted(items.size - 1)
+    }
+
+    fun addFirstItem(item: I) {
         items.add(item)
         notifyItemInserted(items.size - 1)
     }
@@ -73,6 +82,12 @@ abstract class BaseAdapter<I>(items: ArrayList<I>? = null, @LayoutRes private va
         }
     }
 
+    fun updateItem(item: I,position: Int) {
+        items[position] = item
+        if (position >= 0) {
+            notifyItemChanged(position)
+        }
+    }
     fun removeWithoutNotify(position: Int): I {
         return items.removeAt(position)
     }
@@ -85,10 +100,12 @@ abstract class BaseAdapter<I>(items: ArrayList<I>? = null, @LayoutRes private va
         return items
     }
 
-    protected fun getItemView(parent: ViewGroup): View =
-            LayoutInflater.from(parent.context).inflate(itemLayoutRes, parent, false)
 
-    protected fun getItemView(parent: ViewGroup, @LayoutRes itemLayoutRes: Int): View? =
+
+    protected fun getItemView(parent: ViewGroup): View =
+            LayoutInflater.from(parent.context).inflate(itemLayoutRes!!, parent, false)
+
+    protected fun getItemView(parent: ViewGroup, @LayoutRes itemLayoutRes: Int): View =
             LayoutInflater.from(parent.context).inflate(itemLayoutRes, parent, false)
 
 }

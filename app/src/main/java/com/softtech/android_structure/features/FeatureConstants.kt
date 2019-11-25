@@ -9,7 +9,7 @@ object FeatureConstants {
     const val SCREEN_BABYSITTER="babysitter"
     const val SCREEN_CHEF="chef"
     const val SCREEN_GARDENER="gadener"
-    const val SCREEN_MAID="MAID"
+    const val KEY_ROOM="KEY_ROOM"
     const val SCREEN_CHAUFER="SCREEN_CHAUFER_KEY"
 
     const val KEY_CONTRACT_TYPE = "KEY_ORDER_TYPE"

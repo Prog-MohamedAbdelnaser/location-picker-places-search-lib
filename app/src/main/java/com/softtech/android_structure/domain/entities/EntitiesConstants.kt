@@ -7,7 +7,7 @@ object EntitiesConstants {
     const val HTTP_STATUS = "httpStatus"
 
     const val CODE = "code"
-    const val MESSAGE = "message"
+    const val MESSAGE = "message_received"
     const val PAYLOAD = "payload"
     const val ID = "id"
     const val NAME = "name"

@@ -109,7 +109,7 @@ class LocationFragment : BaseFragment(), OnMapReadyCallback {
             is CommonState.LoadingFinished->{hideProgressDialog()}
             is CommonState.Success->{
                 Log.i("Location","handleLocationAddressState ${state.data}")
-                tvAddress!!.text=state.data
+                tvAddress?.text=state.data
             }
             is CommonState.Error->{
                 state.exception.message?.let { showErrorSnackbar(view!!, it) }

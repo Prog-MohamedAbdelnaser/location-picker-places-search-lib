@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mlsdev.rximagepicker:library:2.2.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/66c528ad5d50e50c2ab7e73dd2e17bd2/library-2.2.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/66c528ad5d50e50c2ab7e73dd2e17bd2/library-2.2.1/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mlsdev.rximagepicker/library/2.2.1/6b04c579a9b4eb06cc79c94acf728f9656b3d17/library-2.2.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mlsdev.rximagepicker/library/2.2.1/e9b46bb7e523739e33ac3e38c6ac5ac117f483c/library-2.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

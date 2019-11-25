@@ -21,6 +21,8 @@ import com.softtech.android_structure.domain.entities.account.LoginParameters
 import com.softtech.android_structure.domain.errors.CompositeValidationException
 import com.softtech.android_structure.domain.errors.ValidationException
 import com.softtech.android_structure.features.authorization.verification.activities.VerificationActivity
+import com.softtech.android_structure.features.chat.activities.ChatActivity
+import com.softtech.android_structure.features.chat.activities.ChatRooms
 import com.softtech.android_structure.features.common.CommonState
 import org.koin.standalone.get
 import timber.log.Timber
@@ -37,7 +39,8 @@ class LoginFragment : BaseFragment(){
 
     private fun initEventHandler() {
         btnLogin.setOnClickListener {
-           loginViewModel.login(getLoginParams())
+            navigateToChatScreen()
+            // loginViewModel.login(getLoginParams())
         }
 
 
@@ -67,6 +70,13 @@ class LoginFragment : BaseFragment(){
         startActivityForResult(intent,VerificationActivity.VERIFICATION_REQUEST_CODE)
     }
 
+
+    fun navigateToChatScreen(){
+        val intent=Intent(requireContext(),ChatRooms::class.java)
+        startActivity(intent)
+    }
+
+
     private fun initObservers() {
         loginViewModel.apply {
             loginState?.observe(this@LoginFragment, Observer {
@@ -88,7 +98,8 @@ class LoginFragment : BaseFragment(){
                 if (state.exception is ValidationException)
                     handleValidationException(state.exception)
                 else
-                    handleApiErrorWithSnackBar(state.exception)            }
+                    handleApiErrorWithSnackBar(state.exception)
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.softtech.android_structure.di
 
 import android.content.Context
+import com.google.firebase.database.FirebaseDatabase
 import com.nasmanpower.nas.data.sources.resources.AppResources
 import com.softtech.android_structure.data.repositories.DeviceInfoRepostory
 import com.softtech.android_structure.di.DIConstants.KEY_CURRENT_LANGUAGE
@@ -12,6 +13,7 @@ import com.softtech.android_structure.data.sources.local.AppPreference
 import com.softtech.android_structure.data.sources.local.AppPreferenceConstants.DEFAULT_LOCALE
 import com.softtech.android_structure.data.sources.local.AppPreferenceConstants.PREFERENCE_FILE_NAME
 import com.softtech.android_structure.di.DIConstants.KEY_DEVICE_ID
+import com.softtech.android_structure.domain.firbase.FireBaseMessageUseCase
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
@@ -26,6 +28,10 @@ val applicationModule = module {
     single { StringsRepository(get()) }
 
     single(PREFERENCE_FILE_NAME) { androidApplication().getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE) }
+
+    factory { FirebaseDatabase.getInstance().reference }
+
+    factory { FireBaseMessageUseCase(get()) }
 
     single { AppPreference(get(PREFERENCE_FILE_NAME)) }
 

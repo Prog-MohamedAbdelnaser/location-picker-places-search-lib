@@ -11,6 +11,6 @@ class LoginRepository(private val loginAPI: LoginAPI,private val userRepository:
         return Single.fromCallable{"Success Login"}.doOnSuccess { userRepository.saveUserData(User("1",params.phoneNumber)) }
    /*     return loginAPI.login(params).doOnSuccess {response->
             userRepository.saveUserData(response.payload!!)
-        }.map {response->response.message}*/
+        }.map {response->response.message_received}*/
     }
 }

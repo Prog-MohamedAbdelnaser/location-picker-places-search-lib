@@ -64,4 +64,14 @@
     <string name="service_not_available">Service not available</string>
     <string name="location_not_valid">location not valid</string>
     <string name="no_address_found">No address found</string>
+    <string name="write_a_message">write message</string>
+    <string name="new_message">you have new messages</string>
+    <string name="entry_friend_name">Entry frind name</string>
+    <string name="not_found">Not Found</string>
+    <string name="permission_required_body">Please Enable permission from app settings</string>
+    <string name="picker_camera">Camera</string>
+    <string name="media_picker_gallery">Gallary</string>
+    <string name="media_picker_select_from">Pick Image From :</string>
+    <string name="label_pick_image">Pick Image</string>
+
 </resources>

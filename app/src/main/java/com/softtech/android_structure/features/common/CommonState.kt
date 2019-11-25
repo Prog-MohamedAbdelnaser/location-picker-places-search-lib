@@ -1,5 +1,9 @@
 package com.softtech.android_structure.features.common
 
+import com.softtech.android_structure.domain.entities.ChatMessage
+import com.softtech.android_structure.domain.entities.Room
+import com.softtech.android_structure.domain.entities.User
+
 
 /**
  * Created by mohamed abd elnaby on 16/April/2019
@@ -17,4 +21,10 @@ sealed class LoginStates {
     object LoginSuccess : LoginStates()
 
 }
+sealed class ChatRoomStates{
+    data class AddNewRoom(val room: Room) : ChatRoomStates()
+    data class UpdateRoom(val room: Room) : ChatRoomStates()
+    data class UpdateLastMessage(val lastMessage: ChatMessage) : ChatRoomStates()
+    data class UpdateFrindInfo(val friend: User) : ChatRoomStates()
 
+}

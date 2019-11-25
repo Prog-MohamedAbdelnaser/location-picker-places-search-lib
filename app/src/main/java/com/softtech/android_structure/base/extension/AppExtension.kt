@@ -54,7 +54,7 @@ fun ApplicationClass.isInternetConnected(): Boolean {
             if (code in EXPIRE_SESSION_LIST_STATUS) {
                 if (mainRepository.isLoged()) {
                     mainRepository.clear()
-                //    showUnAuthorizedAlerDialog(requireActivity(),message)
+                //    showUnAuthorizedAlerDialog(requireActivity(),message_received)
                 } else showErrorSnackbar(view!!, message)
             }
         }

@@ -6,6 +6,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import com.example.softartch_lib.SoftArtchLib
+import com.google.firebase.database.FirebaseDatabase
 import com.softtech.android_structure.data.sources.remote.di.remoteModule
 import com.softtech.android_structure.BuildConfig
 import com.softtech.android_structure.di.*
@@ -28,6 +30,8 @@ class ApplicationClass : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext=this
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        SoftArtchLib.init()
         startKoin(
                 this,
                 listOf(

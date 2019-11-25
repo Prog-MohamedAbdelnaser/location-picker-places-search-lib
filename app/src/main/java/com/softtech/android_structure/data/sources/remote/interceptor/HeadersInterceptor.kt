@@ -11,6 +11,7 @@ import org.koin.standalone.get
 class HeadersInterceptor(private val userRepository: UserRepository) : Interceptor, KoinComponent {
 
     private val keyAuthorization = "authorization"
+
     private val keyApiKey = "apiKey"
     private val apiKeyValue = "Nas@manpoweragent"
     private val keyLanguage = "Language"
@@ -18,7 +19,6 @@ class HeadersInterceptor(private val userRepository: UserRepository) : Intercept
     override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(createNewRequestWithApiKey(chain.request()))
 
     private fun createNewRequestWithApiKey(oldRequest: Request): Request {
-
         val requestBuilder = oldRequest.newBuilder()
                 .addHeader(keyApiKey, apiKeyValue)
                 .addHeader(keyLanguage, get(DIConstants.KEY_CURRENT_LANGUAGE))

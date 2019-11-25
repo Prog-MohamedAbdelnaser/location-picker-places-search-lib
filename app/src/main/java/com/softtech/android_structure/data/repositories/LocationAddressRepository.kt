@@ -1,5 +1,6 @@
 package com.softtech.android_structure.data.repositories
 
+import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -7,12 +8,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.nasmanpower.nas.data.exceptions.NoAddressFoundException
 import io.reactivex.Single
 import java.io.IOException
+import java.util.*
 
 class LocationAddressRepository(
-        private val geoCoder: Geocoder,
+        private val context: Context,
         private val serviceNotFoundErrorMessage: String,
         private val invalidLatLongErrorMessage: String,
         private val noAddressFoundErrorMessage: String) {
+
+    private val geoCoder: Geocoder= Geocoder(context, Locale.getDefault())
 
     fun getAddress(param: LatLng): Single<String> {
         val addresses: List<Address>

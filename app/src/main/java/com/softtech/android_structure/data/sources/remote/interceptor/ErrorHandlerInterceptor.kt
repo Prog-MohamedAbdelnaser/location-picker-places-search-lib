@@ -20,7 +20,7 @@ class ErrorHandlerInterceptor(private val stringsRepository: StringsRepository) 
     private val successCode = "Ok"
     private val keyStatus = "status"
     private val keyCode = "code"
-    private val keyMessage = "message"
+    private val keyMessage = "message_received"
     private val keyJson = "json"
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -49,7 +49,7 @@ class ErrorHandlerInterceptor(private val stringsRepository: StringsRepository) 
                 // Clone the existing buffer is they can only read once so we still want to pass the original one to the chain.
                 val json = buffer.clone().readString(charset)
                 val obj = JsonParser().parse(json)
-                // Capture error code an message.
+                // Capture error code an message_received.
                 if (obj is JsonObject && obj.has(keyStatus)) {
                     status = obj.get(keyStatus).asString
                 }

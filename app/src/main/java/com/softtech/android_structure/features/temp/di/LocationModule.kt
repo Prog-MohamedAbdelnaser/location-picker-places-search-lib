@@ -13,11 +13,9 @@ import org.koin.dsl.module.module
 
 val locationModule= module {
 
-    factory { Geocoder(androidApplication(), get(DEFAULT_LOCALE)) }
-
     factory {
         LocationAddressRepository(
-            get(),
+            androidApplication(),
             androidContext().getString(R.string.service_not_available),
             androidContext().getString(R.string.location_not_valid),
             androidContext().getString(R.string.no_address_found)

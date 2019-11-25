@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.benchmark:benchmark-junit4:1.0.0-rc01@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1046b3d8110f4d071bd72269efdd8c52/benchmark-junit4-1.0.0-rc01/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1046b3d8110f4d071bd72269efdd8c52/benchmark-junit4-1.0.0-rc01/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/34c2385c4eeac070b449cc925ff3ef10/benchmark-junit4-1.0.0-rc01/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/34c2385c4eeac070b449cc925ff3ef10/benchmark-junit4-1.0.0-rc01/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

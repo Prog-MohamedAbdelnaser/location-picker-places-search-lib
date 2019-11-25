@@ -93,6 +93,8 @@ dependencies {
 
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
+    //rx image picker
+    implementation 'com.mlsdev.rximagepicker:library:2.2.1'
 
     // koin
     implementation "org.koin:koin-core:$versions.koin"
@@ -132,6 +134,26 @@ dependencies {
     androidTestImplementation "androidx.benchmark:benchmark-junit4:1.0.0-rc01"
 
 
+    //image
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 
 }
+dependencies {
+    // add the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+    implementation "com.google.firebase:firebase-core:$versions.firebaseCore"
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
 
+
+
+}
+apply plugin: 'com.google.gms.google-services'
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:+'
+    implementation 'androidx.constraintlayout:constraintlayout:+'
+    implementation project(path: ':softartch-lib')
+}
