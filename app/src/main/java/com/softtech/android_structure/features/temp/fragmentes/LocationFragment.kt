@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
@@ -20,11 +19,10 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.softtech.android_structure.R
-import com.softtech.android_structure.base.fragment.BaseFragment
+import com.softartch_lib.component.fragment.BaseFragment
 import com.softtech.android_structure.base.utility.GpsUtility
 import com.softtech.android_structure.base.utility.MapUtility
 import com.softtech.android_structure.features.common.CommonState
@@ -33,7 +31,6 @@ import com.softtech.android_structure.features.common.showErrorSnackbar
 import com.softtech.android_structure.features.temp.vm.LocationViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Single
-import io.reactivex.SingleEmitter
 import io.reactivex.SingleSource
 import kotlinx.android.synthetic.main.fragment_location.*
 import timber.log.Timber

@@ -8,7 +8,7 @@ import com.softtech.android_structure.domain.errors.ValidationTypeValues
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.dialogs.AlertDialogManager
 import com.softtech.android_structure.base.extension.handleApiErrorWithSnackBar
-import com.softtech.android_structure.base.fragment.BaseFragment
+import com.softartch_lib.component.fragment.BaseFragment
 import com.softtech.android_structure.di.DIConstants
 import com.softtech.android_structure.domain.entities.account.RegisterParams
 import com.softtech.android_structure.domain.errors.CompositeValidationException

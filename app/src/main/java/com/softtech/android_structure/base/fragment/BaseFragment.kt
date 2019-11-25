@@ -7,7 +7,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.softtech.android_structure.R
-import com.softtech.android_structure.base.dialogs.CustomeProgressDialog
+import com.softartch_lib.component.dialogs.CustomeProgressDialog
 import kotlinx.android.synthetic.main.fragment_base.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.place_holder_layout.*

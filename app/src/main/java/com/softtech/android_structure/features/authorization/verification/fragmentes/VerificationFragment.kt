@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.view.View
 import com.softtech.android_structure.R
-import com.softtech.android_structure.base.fragment.BaseFragment
+import com.softartch_lib.component.fragment.BaseFragment
 import kotlinx.android.synthetic.main.fragment_verification.*
 
 class VerificationFragment: BaseFragment() {

@@ -13,7 +13,7 @@ import com.mlsdev.rximagepicker.RxImagePicker
 import com.mlsdev.rximagepicker.Sources
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.dialogs.AlertDialogManager
-import com.softtech.android_structure.base.fragment.BaseFragment
+import com.softartch_lib.component.fragment.BaseFragment
 import com.softtech.android_structure.domain.entities.ChatMessage
 import com.softtech.android_structure.domain.entities.MessageParams
 import com.softtech.android_structure.domain.entities.Room

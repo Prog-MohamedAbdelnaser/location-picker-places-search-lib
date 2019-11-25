@@ -96,4 +96,26 @@
     <string name="media_picker_select_from">Pick Image From :</string>
     <string name="label_pick_image">Pick Image</string>
 
+<!--<html>
+<body>
+
+<h1>My First Heading</h1>
+
+<p>My first paragraph.</p>
+
+</body>
+</html>
+-->
+    <string name="htmlsource">
+        <![CDATA[<html>
+<body>
+
+<h1>My First Heading</h1>
+
+<p>My first paragraph.</p>
+
+</body>
+</html>]]></string>
+
+
 </resources>

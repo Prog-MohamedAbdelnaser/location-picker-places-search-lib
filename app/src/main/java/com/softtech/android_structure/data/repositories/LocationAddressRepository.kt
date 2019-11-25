@@ -3,9 +3,8 @@ package com.softtech.android_structure.data.repositories
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import com.google.android.gms.maps.model.LatLng
-import com.nasmanpower.nas.data.exceptions.NoAddressFoundException
+import com.softartch_lib.exceptions.NoAddressFoundException
 import io.reactivex.Single
 import java.io.IOException
 import java.util.*

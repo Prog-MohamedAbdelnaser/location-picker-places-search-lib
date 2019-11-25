@@ -137,6 +137,9 @@ dependencies {
     //image
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
+    implementation project(path: ':softartch-lib')
+
+
 
 }
 dependencies {
@@ -152,8 +155,3 @@ dependencies {
 }
 apply plugin: 'com.google.gms.google-services'
 
-dependencies {
-    implementation 'androidx.appcompat:appcompat:+'
-    implementation 'androidx.constraintlayout:constraintlayout:+'
-    implementation project(path: ':softartch-lib')
-}

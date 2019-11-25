@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.softtech.android_structure.domain.errors.ValidationTypeValues
 import com.softtech.android_structure.R
-import com.softtech.android_structure.base.fragment.BaseFragment
+import com.softartch_lib.component.fragment.BaseFragment
 import com.softtech.android_structure.features.authorization.login.vm.LoginViewModel
 import com.softtech.android_structure.features.home.activities.HomeActivity
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -21,7 +21,6 @@ import com.softtech.android_structure.domain.entities.account.LoginParameters
 import com.softtech.android_structure.domain.errors.CompositeValidationException
 import com.softtech.android_structure.domain.errors.ValidationException
 import com.softtech.android_structure.features.authorization.verification.activities.VerificationActivity
-import com.softtech.android_structure.features.chat.activities.ChatActivity
 import com.softtech.android_structure.features.chat.activities.ChatRooms
 import com.softtech.android_structure.features.common.CommonState
 import org.koin.standalone.get

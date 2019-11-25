@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.dialogs.AlertDialogManager.createAlertDialog
-import com.softtech.android_structure.base.fragment.BaseFragment
+import com.softartch_lib.component.fragment.BaseFragment
 import com.softtech.android_structure.domain.entities.account.User
 import com.softtech.android_structure.features.authorization.AuthorizationActivity
 import com.softtech.android_structure.features.common.CommonState
