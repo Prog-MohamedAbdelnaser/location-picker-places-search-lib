@@ -49,7 +49,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 @Suppress("RedundantLambdaArrow", "MissingPermission")
-abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
+abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback {
 
     companion object {
 
@@ -132,7 +132,7 @@ abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
     private fun initViewModelObservers() {
 
         locationViewModel.apply {
-            locationAddressLiveDataState.observe(this@LocationPickerFragment, Observer {
+            locationAddressLiveDataState.observe(this@LocationPickerFragmentWithSearchBar, Observer {
                 Handler(Looper.getMainLooper()).post {
                     handleLocationAddressState(it)
                 }
@@ -213,7 +213,7 @@ abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         override fun activate(locationChangedListener: OnLocationChangedListener?) {
-            this@LocationPickerFragment.locationChangedListener = locationChangedListener
+            this@LocationPickerFragmentWithSearchBar.locationChangedListener = locationChangedListener
             locationUpdateStarted = true
 //            getLastKnownLocation()
             startLocationUpdate()
@@ -621,11 +621,11 @@ abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
                         if (isMyLocationEnabled.not()) {
                             startLocationTracking(this)
                         } else {
-                            this@LocationPickerFragment.startLocationUpdate()
+                            this@LocationPickerFragmentWithSearchBar.startLocationUpdate()
                         }
                     }
                 } else {
-                    this@LocationPickerFragment.stopLocationUpdate()
+                    this@LocationPickerFragmentWithSearchBar.stopLocationUpdate()
                     //showErrorSnackbar(contentView, getString(R.string.wont_detect_location))
                 }
             }

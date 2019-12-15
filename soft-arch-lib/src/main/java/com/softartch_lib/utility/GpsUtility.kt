@@ -1,21 +1,8 @@
 package com.softtech.android_structure.base.utility
-import android.app.Activity
 import android.content.Context
-import android.content.IntentSender
-import android.util.Log
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.LocationSettingsResponse
-import com.google.android.gms.tasks.Task
-import com.softartch_lib.exceptions.LocationServiceRequestException
-import com.softartch_lib.locationpicker.LocationPickerFragment
 import com.softartch_lib.utility.EnableLocationServiceSetting
 import io.reactivex.Single
-import io.reactivex.SingleSource
-import io.reactivex.functions.Function
-import timber.log.Timber
 
 object GpsUtility {
 
