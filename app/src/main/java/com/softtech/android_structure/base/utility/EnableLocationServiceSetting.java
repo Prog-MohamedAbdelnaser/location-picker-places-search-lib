@@ -135,12 +135,15 @@ public class EnableLocationServiceSetting extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SETTING_REQUEST_CODE && resultCode == RESULT_OK) {
 
             try {
                 emitter.onSuccess(true);
-            } catch (Exception ex) { ex.printStackTrace(); }
-        }else {
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
             emitter.onError(new LocationServiceRequestException());
         }
         finish();

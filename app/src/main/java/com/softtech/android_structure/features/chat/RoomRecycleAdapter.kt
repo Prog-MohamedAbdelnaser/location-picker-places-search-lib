@@ -4,11 +4,10 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import com.agentsapp.naas.softview.TimeConvertor
+import com.softartch_lib.utility.TimeConvertor
 import com.softtech.android_structure.R
 import com.softtech.android_structure.base.adapter.BaseAdapter
 import com.softtech.android_structure.base.adapter.BaseViewHolder
-import com.softtech.android_structure.domain.entities.ChatMessage
 import com.softtech.android_structure.domain.entities.Room
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -44,7 +43,7 @@ class RoomRecycleAdapter :BaseAdapter<Room>(){
                    text= item?.friend?.name
                 }
                 tvLastMessage.text=item?.lastMessage?.text
-                item?.lastMessage?.created_at?.let { tvMessageTime.text=TimeConvertor.getOptimizedTimeFromMiliSeconde(it.toLong()) }
+                item?.lastMessage?.created_at?.let { tvMessageTime.text= TimeConvertor.getOptimizedTimeFromMiliSeconde(it.toLong()) }
                 item?.lastMessage?.let {
 
                     if (it.readStatus){

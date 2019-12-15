@@ -79,7 +79,7 @@
     <string name="invalid_email">Invalid Email</string>
     <string name="fill_data">Fill data</string>
     <string name="invalid_name">Invalid name</string>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD-1YJVMDbcr2lpCDoeWEpJF6XKqnldhN4</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAt5t6hKxU1wCyAZ1JQMT-gPjtCSp3FeQo</string>
     <string name="loading_address">Loading Address...</string>
     <string name="wont_detect_location">wont_detect_location</string>
     <string name="app_wont_be_ablet_o_detect_your_location">App won\'t be able to detect your location</string>
@@ -108,13 +108,9 @@
 -->
     <string name="htmlsource">
         <![CDATA[<html>
-<body>
-
-<h1>My First Heading</h1>
-
-<p>My first paragraph.</p>
-
-</body>
+<marquee width="60%" direction="right" height="100px">
+This is a sample scrolling text that has scrolls texts to right This is a sample scrolling text that has scrolls texts to right This is a sample scrolling text that has scrolls texts to right.
+</marquee>
 </html>]]></string>
 
 

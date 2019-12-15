@@ -2,6 +2,7 @@ package com.softtech.android_structure.features.authorization.login.fragmentes
 
 import android.app.Activity
 import android.content.Intent
+import android.text.Html
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
@@ -34,7 +35,12 @@ class LoginFragment : BaseFragment(){
         super.onViewInflated(parentView, childView)
         initObservers()
         initEventHandler()
+
+        //val sp =Html.fromHtml(getString(R.string.htmlsource))
+       /* tvDontHaveAnAccount.text = getString(R.string.htmlsource)
+        tvDontHaveAnAccount.isSelected=true*/
     }
+
 
     private fun initEventHandler() {
         btnLogin.setOnClickListener {
@@ -78,7 +84,7 @@ class LoginFragment : BaseFragment(){
 
     private fun initObservers() {
         loginViewModel.apply {
-            loginState?.observe(this@LoginFragment, Observer {
+            loginState.observe(this@LoginFragment, Observer {
                 handleLoginState(it)
             })
         }

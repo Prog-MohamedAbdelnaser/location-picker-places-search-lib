@@ -9,6 +9,7 @@ import com.softtech.android_structure.R
 import com.softartch_lib.component.fragment.BaseFragment
 import com.softtech.android_structure.features.authorization.AuthorizationActivity
 import com.softtech.android_structure.features.home.activities.HomeActivity
+import com.softtech.android_structure.features.location.activities.LocationAddress
 import com.softtech.android_structure.features.splash.vm.SplashViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -22,6 +23,7 @@ class FragmentSplash : BaseFragment() {
 
     override fun onViewInflated(parentView: View, childView: View) {
         super.onViewInflated(parentView, childView)
+
 
         Timber.i("FragmentSplash")
         splashViewModel.apply {
@@ -38,7 +40,7 @@ class FragmentSplash : BaseFragment() {
     }
 
     fun moveToLogin(){
-        val  intent=Intent(requireContext(),AuthorizationActivity::class.java)
+        val  intent=Intent(requireContext(),LocationAddress::class.java)
         requireActivity().overridePendingTransition(0,0)
         startActivity(intent)
         requireActivity().overridePendingTransition(0,0)

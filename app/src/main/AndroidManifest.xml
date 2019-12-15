@@ -54,7 +54,10 @@
         <activity
             android:name=".base.utility.EnableLocationServiceSetting"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Translucent"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".features.location.activities.LocationAddress"/>
     </application>
 
 </manifest>
