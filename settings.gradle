@@ -1,1 +1,1 @@
-include ':app', ':softartch-lib'
+include ':app', ':soft-arch-lib'

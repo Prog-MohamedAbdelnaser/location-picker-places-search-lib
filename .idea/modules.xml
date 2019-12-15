@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android_templet_structure.iml" filepath="$PROJECT_DIR$/android_templet_structure.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/softartch-lib/softartch-lib.iml" filepath="$PROJECT_DIR$/softartch-lib/softartch-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/soft-arch-lib/soft-arch-lib.iml" filepath="$PROJECT_DIR$/soft-arch-lib/soft-arch-lib.iml" />
     </modules>
   </component>
 </project>
