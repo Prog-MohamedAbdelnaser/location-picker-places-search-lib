@@ -1,7 +1,8 @@
-package com.agentsapp.naas.softview
+package com.softartch_lib.utility
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 object TimeConvertor {
@@ -22,12 +23,14 @@ object TimeConvertor {
             return timestamp
         }
 
+
           fun getDifferenceDaysWithCurrentTime(date: String): Long {
             val locale = Locale("en")
             Locale.setDefault(locale)
             val dateTimeFormat_MS = SimpleDateFormat(TIMESTAMP_MS_Format)
             val dateTimeFormat = SimpleDateFormat(TIMESTAMP_Format)
             val dateFormat = SimpleDateFormat(DAY_OF_YEAY_Foramt)
+
             val c = Calendar.getInstance().time
             var minutes: Long = 0
             var hours: Long = 0
@@ -37,7 +40,9 @@ object TimeConvertor {
             try {
                 val oldDateTime = dateTimeFormat_MS.parse(date)
                 val oldDateString=dateFormat.format(oldDateTime)
+
                 oldDate = dateFormat.parse(oldDateString)
+
                 val currentDateString=dateFormat.format(c);
                 currentDate=dateFormat.parse(currentDateString)
             } catch (e: ParseException) {
@@ -242,6 +247,12 @@ object TimeConvertor {
 
 
         }
+
+    fun toFormat(date: LocalDate,parseFormat:String,local: Locale): String {
+        Locale.setDefault(local)
+        val dateFormat = SimpleDateFormat(parseFormat,local)
+        return dateFormat.format(date)
+    }
 
 
 }

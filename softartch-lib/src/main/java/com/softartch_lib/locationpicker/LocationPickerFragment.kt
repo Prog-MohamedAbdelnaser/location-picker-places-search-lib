@@ -147,7 +147,7 @@ abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
             is RequestDataState.LoadingShow->{setMarkerTitle("loading...")}
 
             is RequestDataState.Success->{
-               setMarkerTitle(state.data.addressName)
+                state.data.addressName?.let { setMarkerTitle(it) }
                 onGetLocationAddress(state.data)
 
             }
@@ -433,7 +433,7 @@ abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
             targetMarker?.remove()
             targetMarker = addMarker(createMarkerOption(latLng))
             moveCamera(this, latLng)
-            locationViewModel.targetAddress=(address)
+            locationViewModel.setTargetAddress(address)
         }
     }
 
@@ -493,6 +493,9 @@ abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.w("onActivityResult", "onReceive ${data?.toString()}")
+
+
         if (requestCode == LOCATION_SERVICE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 locationServiceEmitter?.apply {
@@ -609,6 +612,7 @@ abstract class LocationPickerFragment : BaseFragment(), OnMapReadyCallback {
     inner class GpsLocationReceiver : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
+            Log.w("GpsLocationReceiver", "onReceive ${intent.action}")
             if (intent.action?.equals(providerChanges) == true) {
                 val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 

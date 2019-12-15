@@ -16,9 +16,9 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
 
     private val disposables=CompositeDisposable()
     var lastSelectedLocation :LatLng?=null
-    var targetAddress:String?=null
+    private var targetAddress: String? = null
 
-    var targetLocationAddress: LocationAddress?=null
+    private var targetLocationAddress: LocationAddress?=null
 
     var locationAddressLiveDataState =MutableLiveData<RequestDataState<LocationAddress>>()
 
@@ -63,6 +63,7 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
         if (targetAddress == null) {
             locationAddressSubject.onNext(location)
         } else {
+            targetLocationAddress?.addressName=targetAddress.toString()
             locationAddressLiveDataState.postValue(RequestDataState.Success(targetLocationAddress!!))
         }
     }
@@ -86,5 +87,13 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
 )
 }
 
+    fun setTargetAddress(targetAddress: String?) {
+        this.targetAddress = targetAddress
+    }
+
+    fun setTargetLocationAddress(locationAddress: LocationAddress?) {
+        this.targetLocationAddress = locationAddress
+        setTargetAddress(targetLocationAddress!!.addressName)
+    }
 
 }
