@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -55,6 +57,9 @@ abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {
         const val PLACE_REQUEST_CODE = 1002
 
     }
+
+    @DrawableRes
+    var resLocationIcon:Int?=R.drawable.ic_location
 
     fun setSearchCountryFilter(country:String){
         this.country=country
@@ -295,9 +300,9 @@ abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {
 
         targetMarker?.remove()
         targetMarker=  if (moveCamera)
-         MapUtility.addMarkerAndMoveToSelectedLocation(requireContext(),map, latLng,zoom=zoom!!)
+         MapUtility.addMarkerAndMoveToSelectedLocation(requireContext(),map, latLng,zoom=zoom!!,icon = this!!.resLocationIcon!!)
         else
-             MapUtility.addMarkerAndMoveToSelectedLocation(requireContext(),map, latLng,zoom = zoom!!)
+             MapUtility.addMarkerAndMoveToSelectedLocation(requireContext(),map, latLng,zoom = zoom!!, icon = resLocationIcon!!)
         locationPickerViewModel.setTargetLocationAddress(LocationAddress(latLng!!.latitude!!,latLng!!.longitude,address))
 
     }
@@ -390,9 +395,8 @@ abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {
                     Activity.RESULT_OK -> {
                         val place: Place = PlaceAutocomplete.getPlace(activity, data)
                         shouldMarkerFollowUserLocation = false
-
                         addTargetMarker( place.latLng, place.address.toString())
-                        onGetLocationAddress(LocationAddress(place.latLng.latitude,place.latLng.latitude,place.address.toString()))
+                        onGetLocationAddress(LocationAddress(place.latLng.latitude,place.latLng.longitude,place.address.toString()))
                     }
                     PlaceAutocomplete.RESULT_ERROR -> {
                         val status: Status = PlaceAutocomplete.getStatus(activity, data)
@@ -403,28 +407,15 @@ abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {
     }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater?.inflate(R.menu.map_search, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+    fun setMapPickLoctionIcon(@DrawableRes iconRes:Int){
+        resLocationIcon=iconRes
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item?.itemId == R.id.search) {
-            try {
-                val intent: Intent = PlaceAutocomplete
-                    .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                    .setFilter(createAutocompleteFilter())
-                    .build(requireActivity())
-                startActivityForResult(intent, PLACE_REQUEST_CODE)
-            } catch (e: GooglePlayServicesRepairableException) {
-                e.printStackTrace()
-            } catch (e: GooglePlayServicesNotAvailableException) {
-                e.printStackTrace()
-            }
-
-        }
-        return super.onOptionsItemSelected(item)
-
+    fun openLocationSearchAutoComplete(){
+        val intent: Intent = PlaceAutocomplete
+            .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+            .setFilter(createAutocompleteFilter())
+            .build(requireActivity())
+        startActivityForResult(intent, PLACE_REQUEST_CODE)
     }
 
     private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()

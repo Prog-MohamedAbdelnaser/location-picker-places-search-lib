@@ -3,6 +3,7 @@ package com.softtech.android_structure.base.utility
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.softartch_lib.R
 import com.google.android.gms.maps.CameraUpdate
@@ -15,7 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 object MapUtility {
 
-     fun addMarkerAndMoveToSelectedLocation(context: Context, googleMap: GoogleMap?, latLng: LatLng, icon:Int= R.drawable.ic_location, zoom: Float):Marker {
+     fun addMarkerAndMoveToSelectedLocation(context: Context, googleMap: GoogleMap?, latLng: LatLng, @DrawableRes icon:Int= R.drawable.ic_location, zoom: Float):Marker {
         moveCamera(googleMap!!, latLng,zoom)
         return googleMap.addMarker(createMarkerOption(latLng,context))
     }
@@ -29,7 +30,7 @@ object MapUtility {
         )
     }
 
-    private fun getBitmapFromVectorDrawable(context:Context,icon: Int= R.drawable.ic_location): Bitmap {
+    private fun getBitmapFromVectorDrawable(context:Context,@DrawableRes icon: Int= R.drawable.ic_location): Bitmap {
         val drawable = ContextCompat.getDrawable(context,icon)
 
         val bitmap = Bitmap.createBitmap(drawable!!.intrinsicWidth,
