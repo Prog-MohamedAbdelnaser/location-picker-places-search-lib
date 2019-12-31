@@ -14,6 +14,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.*
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
@@ -61,6 +62,10 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
         const val deviceInfoKey: String = "deviceInfoKey"
     }
+
+
+    @DrawableRes
+    var resLocationIcon:Int?=R.drawable.ic_location
 
     abstract fun mapViewResource(): MapView
 
@@ -141,6 +146,19 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
         }
     }
+
+
+    fun setMapPickLoctionIcon(@DrawableRes iconRes:Int){
+        resLocationIcon=iconRes
+    }
+    fun openLocationSearchAutoComplete(){
+        val intent: Intent = PlaceAutocomplete
+            .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+            .setFilter(createAutocompleteFilter())
+            .build(requireActivity())
+        startActivityForResult(intent, LocationPickerFragment2.PLACE_REQUEST_CODE)
+    }
+
 
     private fun handleLocationAddressState(state: RequestDataState<LocationAddress>?) {
         when(state){
@@ -447,7 +465,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     }
 
     private fun getBitmapFromVectorDrawable(): Bitmap {
-        val drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_location)
+        val drawable = ContextCompat.getDrawable(context!!, resLocationIcon?:R.drawable.ic_location)
 
         val bitmap = Bitmap.createBitmap(drawable!!.intrinsicWidth,
                 drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
@@ -520,7 +538,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                     shouldMarkerFollowUserLocation = false
                     targetAccuracy = 0f
                     addMarkerAndMoveToSelectedLocation(googleMap, place.latLng, place.address.toString())
-                    onGetLocationAddress(LocationAddress(place.latLng.latitude,place.latLng.latitude,place.address.toString()))
+                    onGetLocationAddress(LocationAddress(place.latLng.latitude,place.latLng.longitude,place.address.toString()))
                 }
                 PlaceAutocomplete.RESULT_ERROR -> {
                     val status: Status = PlaceAutocomplete.getStatus(activity, data)
