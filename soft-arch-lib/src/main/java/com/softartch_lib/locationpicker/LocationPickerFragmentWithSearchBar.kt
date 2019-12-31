@@ -550,6 +550,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
 
 
+/*
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.map_search, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -573,6 +574,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
         return super.onOptionsItemSelected(item)
     }
+*/
 
 
     private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()
