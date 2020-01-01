@@ -53,6 +53,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback {
 
     companion object {
+        const val SAUDIA_FILTER="SA"
 
         const val LOCATION_SERVICE_REQUEST_CODE = 1000
 
@@ -64,7 +65,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     }
 
 
-    private  var localizationFillter: String="SA"
+    private  var localizationFillter: String=""
     @DrawableRes
     var resLocationIcon:Int?=R.drawable.ic_location
 
@@ -153,13 +154,13 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         resLocationIcon=iconRes
     }
     fun openLocationSearchAutoComplete(){
-
-
         try {
-            val intent: Intent = PlaceAutocomplete
-                .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                .setFilter(createAutocompleteFilter())
-                .build(activity)
+            val intentBuilder: PlaceAutocomplete.IntentBuilder = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+            if (localizationFillter.isNotEmpty()) {
+                intentBuilder. setFilter(createAutocompleteFilter())
+            }
+             val intent =  intentBuilder.build(activity)
+
             startActivityForResult(intent, placesAutoCompleteCode)
         } catch (e: GooglePlayServicesRepairableException) {
             e.printStackTrace()
@@ -562,7 +563,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
 
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+/*    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.map_search, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -584,7 +585,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
 
     private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()
