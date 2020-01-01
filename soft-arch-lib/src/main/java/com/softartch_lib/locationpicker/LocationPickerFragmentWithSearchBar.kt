@@ -64,6 +64,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     }
 
 
+    private  var localizationFillter: String="SA"
     @DrawableRes
     var resLocationIcon:Int?=R.drawable.ic_location
 
@@ -587,8 +588,12 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
 
     private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()
-            .setCountry("SA")
+            .setCountry(localizationFillter)
             .build()
+
+    fun setSearchLocalizationFilter(localFilter: String){
+        localizationFillter=localFilter
+    }
 
     override fun onResume() {
         super.onResume()
