@@ -173,6 +173,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
             is RequestDataState.Success->{
                 state.data.addressName?.let { setMarkerTitle(it) }
+                Log.i("onGetLocationAddressL","${state.data}")
                 onGetLocationAddress(state.data)
 
             }
@@ -538,14 +539,17 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                 }
             }
         } else if (requestCode == placesAutoCompleteCode) {
-            println("onActivityResult ${data.toString()}")
             when (resultCode) {
                 Activity.RESULT_OK -> {
+
+
                     val place: Place = PlaceAutocomplete.getPlace(activity, data)
                     shouldMarkerFollowUserLocation = false
                     targetAccuracy = 0f
                     addMarkerAndMoveToSelectedLocation(googleMap, place.latLng, place.address.toString())
                     onGetLocationAddress(LocationAddress(place.latLng.latitude,place.latLng.longitude,place.address.toString()))
+                    println("onGetLocationAddress ResultAct${place.latLng.longitude  } ,${place.latLng.latitude}")
+
                 }
                 PlaceAutocomplete.RESULT_ERROR -> {
                     val status: Status = PlaceAutocomplete.getStatus(activity, data)
@@ -557,7 +561,6 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
 
 
-/*
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.map_search, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -581,7 +584,6 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
         return super.onOptionsItemSelected(item)
     }
-*/
 
 
     private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()

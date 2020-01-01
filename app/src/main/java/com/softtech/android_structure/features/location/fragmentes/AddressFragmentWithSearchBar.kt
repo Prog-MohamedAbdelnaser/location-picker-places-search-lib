@@ -1,5 +1,6 @@
 package com.softtech.android_structure.features.location.fragmentes
 
+import android.util.Log
 import android.view.View
 import com.softartch_lib.locationpicker.LocationAddress
 import com.google.android.gms.maps.MapView
@@ -18,7 +19,7 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
     }
 
     override fun onGetLocationAddress(locationAddress: LocationAddress) {
-        super.onGetLocationAddress(locationAddress)
+        Log.i("onGetLocationAddress","${locationAddress.toString()}")
     }
 
 }

@@ -60,10 +60,12 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
 
 
     fun onCameraIdle(location: LatLng) {
+        Log.i("onCameraIdle","location${location.toString()}")
+
         if (targetAddress == null) {
             locationAddressSubject.onNext(location)
         } else {
-            targetLocationAddress?.addressName=targetAddress.toString()
+            targetLocationAddress=LocationAddress(location!!.latitude,location.longitude,targetAddress.toString())
             locationAddressLiveDataState.postValue(RequestDataState.Success(targetLocationAddress!!))
         }
     }
