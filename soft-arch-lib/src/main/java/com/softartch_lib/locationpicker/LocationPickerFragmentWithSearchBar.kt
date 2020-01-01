@@ -152,13 +152,20 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         resLocationIcon=iconRes
     }
     fun openLocationSearchAutoComplete(){
-        val intent: Intent = PlaceAutocomplete
-            .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-            .setFilter(createAutocompleteFilter())
-            .build(requireActivity())
-        startActivityForResult(intent, LocationPickerFragment2.PLACE_REQUEST_CODE)
-    }
 
+
+        try {
+            val intent: Intent = PlaceAutocomplete
+                .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                .setFilter(createAutocompleteFilter())
+                .build(activity)
+            startActivityForResult(intent, placesAutoCompleteCode)
+        } catch (e: GooglePlayServicesRepairableException) {
+            e.printStackTrace()
+        } catch (e: GooglePlayServicesNotAvailableException) {
+            e.printStackTrace()
+        }
+    }
 
     private fun handleLocationAddressState(state: RequestDataState<LocationAddress>?) {
         when(state){
