@@ -293,6 +293,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
     }
 
+
     private fun locationCallback() =
             object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
@@ -555,6 +556,12 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
     }
 
+    fun setPickedPlace(place: Place){
+        shouldMarkerFollowUserLocation = false
+        targetAccuracy = 0f
+        addMarkerAndMoveToSelectedLocation(googleMap, place.latLng!!, place.address.toString())
+        onGetLocationAddress(LocationAddress(place.latLng!!.latitude,place.latLng!!.longitude,place.address.toString()))
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.w("onActivityResult", "onReceive ${data?.toString()}")
 
@@ -581,17 +588,10 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     val place = Autocomplete.getPlaceFromIntent(data!!);
-                    //   val place: Place = PlaceAutocomplete.getPlace(activity, data)
-
-                    shouldMarkerFollowUserLocation = false
-                    targetAccuracy = 0f
-                    addMarkerAndMoveToSelectedLocation(googleMap, place.latLng!!, place.address.toString())
-                    onGetLocationAddress(LocationAddress(place.latLng!!.latitude,place.latLng!!.longitude,place.address.toString()))
-                    println("onGetLocationAddress ResultAct${place.latLng!!.longitude  } ,${place.latLng!!.latitude}")
+                    setPickedPlace(place)
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
                     val status: Status =  Autocomplete.getStatusFromIntent(data!!);
-
                 }
 
             }
