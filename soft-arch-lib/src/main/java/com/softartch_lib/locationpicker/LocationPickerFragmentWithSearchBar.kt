@@ -565,7 +565,6 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.w("onActivityResult", "onReceive ${data?.toString()}")
 
-
         if (requestCode == LOCATION_SERVICE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 locationServiceEmitter?.apply {
