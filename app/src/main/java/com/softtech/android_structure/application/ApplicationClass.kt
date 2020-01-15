@@ -20,6 +20,7 @@ import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 
 class ApplicationClass : Application() {
+
     companion object {
         var currentActivity: ComponentName? = null
         var isTestVersion:Boolean=true
@@ -32,9 +33,7 @@ class ApplicationClass : Application() {
         appContext=this
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         SoftArtchLib.init()
-        startKoin(
-                this,
-                listOf(
+        startKoin(this, listOf(
                         applicationModule,
                         remoteModule,
                         validatorModule,
@@ -45,13 +44,11 @@ class ApplicationClass : Application() {
                         signupModule,
                     myAccountModule,
                     locationModule
-                )
-        )
+                ))
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
 
@@ -82,14 +79,16 @@ class ApplicationClass : Application() {
     }
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LanguageUseCaseProvider.getLanguageUseCase(base).wrap(base))
+        super.attachBaseContext(LanguageUseCaseProvider.getLanguageUseCase(base).execute(base))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        LanguageUseCaseProvider.getLanguageUseCase(this).wrap(this)
+        LanguageUseCaseProvider.getLanguageUseCase(this).execute(this)
     }
 
     var versionCode = BuildConfig.VERSION_CODE
+
     var versionName = BuildConfig.VERSION_NAME
+
 }

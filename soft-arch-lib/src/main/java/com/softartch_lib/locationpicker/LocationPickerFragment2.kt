@@ -25,9 +25,12 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.libraries.places.compat.AutocompleteFilter
-import com.google.android.libraries.places.compat.Place
-import com.google.android.libraries.places.compat.ui.PlaceAutocomplete
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+
 import com.softartch_lib.R
 import com.softartch_lib.component.RequestDataState
 import com.softartch_lib.component.fragment.BaseFragment
@@ -45,6 +48,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.util.*
 
 
 abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {
@@ -393,13 +397,15 @@ abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {
             PLACE_REQUEST_CODE->{
                 when (resultCode) {
                     Activity.RESULT_OK -> {
-                        val place: Place = PlaceAutocomplete.getPlace(activity, data)
+                        val place = Autocomplete.getPlaceFromIntent(data!!);
+                     //   val place: Place = PlaceAutocomplete.getPlace(activity, data)
                         shouldMarkerFollowUserLocation = false
-                        addTargetMarker( place.latLng, place.address.toString())
-                        onGetLocationAddress(LocationAddress(place.latLng.latitude,place.latLng.longitude,place.address.toString()))
+                        addTargetMarker( place.latLng!!, place.address.toString())
+                        onGetLocationAddress(LocationAddress(place.latLng!!.latitude,place.latLng!!.longitude,place.address.toString()))
                     }
-                    PlaceAutocomplete.RESULT_ERROR -> {
-                        val status: Status = PlaceAutocomplete.getStatus(activity, data)
+                    AutocompleteActivity.RESULT_ERROR -> {
+                        val status: Status =  Autocomplete.getStatusFromIntent(data!!);
+
                     }
 
                 }
@@ -411,16 +417,35 @@ abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {
         resLocationIcon=iconRes
     }
     fun openLocationSearchAutoComplete(){
-        val intent: Intent = PlaceAutocomplete
+
+
+       val fields = listOf(Place.Field.ID, Place.Field.NAME,Place.Field.ADDRESS,Place.Field.LAT_LNG,Place.Field.ADDRESS_COMPONENTS);
+
+// Start the autocomplete intent.
+val  intent =  Autocomplete.IntentBuilder(
+        AutocompleteActivityMode.FULLSCREEN, fields)
+    .setCountry(country?:"")
+        .build(requireContext());
+startActivityForResult(intent, PLACE_REQUEST_CODE);
+
+      /*  val intent: Intent = PlaceAutocomplete
             .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
             .setFilter(createAutocompleteFilter())
             .build(requireActivity())
         startActivityForResult(intent, PLACE_REQUEST_CODE)
+
+
+
+*/
     }
 
-    private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()
+/*
+    private fun createAutocompleteFilter(): TypeFilter = AutocompleteFilter.Builder()
         .setCountry(country)
         .build()
+
+*/
+
 
     open fun onGetLocationAddress(locationAddress: LocationAddress) {}
 

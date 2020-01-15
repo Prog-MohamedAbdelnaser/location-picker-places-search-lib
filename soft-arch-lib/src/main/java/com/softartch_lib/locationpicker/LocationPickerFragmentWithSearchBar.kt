@@ -35,9 +35,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
-import com.google.android.libraries.places.compat.AutocompleteFilter
-import com.google.android.libraries.places.compat.Place
-import com.google.android.libraries.places.compat.ui.PlaceAutocomplete
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+
+
 import com.softartch_lib.exceptions.LocationServiceRequestException
 import com.softartch_lib.exceptions.PermissionDeniedException
 import com.softartch_lib.component.fragment.BaseFragment
@@ -153,6 +156,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     fun setMapPickLoctionIcon(@DrawableRes iconRes:Int){
         resLocationIcon=iconRes
     }
+/*
     fun openLocationSearchAutoComplete(){
         try {
             val intentBuilder: PlaceAutocomplete.IntentBuilder = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
@@ -169,6 +173,37 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
     }
 
+*/
+
+
+
+
+    fun openLocationSearchAutoComplete(){
+
+
+        val fields = listOf(
+            Place.Field.ID, Place.Field.NAME,
+            Place.Field.ADDRESS,
+            Place.Field.LAT_LNG,
+            Place.Field.ADDRESS_COMPONENTS);
+
+// Start the autocomplete intent.
+        val  intent =  Autocomplete.IntentBuilder(
+            AutocompleteActivityMode.FULLSCREEN, fields)
+            .setCountry(localizationFillter?:"")
+            .build(requireContext());
+        startActivityForResult(intent, LocationPickerFragment2.PLACE_REQUEST_CODE);
+
+        /*  val intent: Intent = PlaceAutocomplete
+              .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+              .setFilter(createAutocompleteFilter())
+              .build(requireActivity())
+          startActivityForResult(intent, PLACE_REQUEST_CODE)
+
+
+
+  */
+    }
     private fun handleLocationAddressState(state: RequestDataState<LocationAddress>?) {
         when(state){
             is RequestDataState.LoadingShow->{setMarkerTitle("loading...")}
@@ -541,7 +576,26 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                 }
             }
         } else if (requestCode == placesAutoCompleteCode) {
+
+
             when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val place = Autocomplete.getPlaceFromIntent(data!!);
+                    //   val place: Place = PlaceAutocomplete.getPlace(activity, data)
+
+                    shouldMarkerFollowUserLocation = false
+                    targetAccuracy = 0f
+                    addMarkerAndMoveToSelectedLocation(googleMap, place.latLng!!, place.address.toString())
+                    onGetLocationAddress(LocationAddress(place.latLng!!.latitude,place.latLng!!.longitude,place.address.toString()))
+                    println("onGetLocationAddress ResultAct${place.latLng!!.longitude  } ,${place.latLng!!.latitude}")
+                }
+                AutocompleteActivity.RESULT_ERROR -> {
+                    val status: Status =  Autocomplete.getStatusFromIntent(data!!);
+
+                }
+
+            }
+/*            when (resultCode) {
                 Activity.RESULT_OK -> {
 
 
@@ -557,7 +611,11 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                     val status: Status = PlaceAutocomplete.getStatus(activity, data)
                 }
                 Activity.RESULT_CANCELED ->{}
-            }
+
+
+
+
+            }*/
         }
     }
 
@@ -588,9 +646,11 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     }*/
 
 
+/*
     private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()
             .setCountry(localizationFillter)
             .build()
+*/
 
     fun setSearchLocalizationFilter(localFilter: String){
         localizationFillter=localFilter

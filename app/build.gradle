@@ -8,15 +8,21 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
+kapt {
+    generateStubs = true
+}
+
 android {
+
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+
     defaultConfig {
         applicationId "com.softtech.android_structure"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -53,6 +59,9 @@ android {
 }
 
 dependencies {
+    // https://stackoverflow.com/a/44348581/3512164
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'

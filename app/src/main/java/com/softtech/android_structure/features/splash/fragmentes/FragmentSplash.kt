@@ -40,7 +40,7 @@ class FragmentSplash : BaseFragment() {
     }
 
     fun moveToLogin(){
-        val  intent=Intent(requireContext(),LocationAddress::class.java)
+        val  intent=Intent(requireContext(),AuthorizationActivity::class.java)
         requireActivity().overridePendingTransition(0,0)
         startActivity(intent)
         requireActivity().overridePendingTransition(0,0)

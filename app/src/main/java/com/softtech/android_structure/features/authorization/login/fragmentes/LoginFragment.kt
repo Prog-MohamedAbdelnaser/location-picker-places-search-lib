@@ -44,8 +44,7 @@ class LoginFragment : BaseFragment(){
 
     private fun initEventHandler() {
         btnLogin.setOnClickListener {
-            navigateToChatScreen()
-            // loginViewModel.login(getLoginParams())
+           loginViewModel.login(getLoginParams())
         }
 
 
