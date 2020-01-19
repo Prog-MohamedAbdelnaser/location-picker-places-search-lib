@@ -106,7 +106,7 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
 
         Log.i("onGetLocationAddress","${locationAddress.toString()}")
     }
-
+}
 ### Step 3
 
 Add com.softartch_lib.component.widget.AutoCompleteSearchView  and map view to map fragment xm file .
@@ -161,5 +161,3 @@ Add com.softartch_lib.component.widget.AutoCompleteSearchView  and map view to m
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
-
-}
