@@ -22,7 +22,6 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
 
     override fun layoutResource(): Int = R.layout.fragment_location
 
-
     override fun clickPickedPlace(locationName:String) {
         searchViewAuto.getRecycleViewResults()!!.hide()
         progressBar.hide()
@@ -75,11 +74,17 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
     }
 
     private fun initRecycleView() {
+
+        // todo  initialize you custome recycler view to set in it auto complete search result adapter
+
         val adapter=getAutoCompleteSearchResultAdapter()
-        searchViewAuto.getRecycleViewResults()?.layoutManager = LinearLayoutManager(requireContext())
-        searchViewAuto.getRecycleViewResults()?.adapter = adapter
+        searchViewAuto.setAdapter(adapter)
     }
+
     override fun onGetLocationAddress(locationAddress: LocationAddress) {
+
+        // todo handle as you need the pick location result or location selected from search
+
         Log.i("onGetLocationAddress","${locationAddress.toString()}")
     }
 

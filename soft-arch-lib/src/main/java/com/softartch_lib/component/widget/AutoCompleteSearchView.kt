@@ -1,9 +1,12 @@
-package com.locationpicker.sample.base.widget
+package com.softartch_lib.component.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.SearchView
+import androidx.annotation.Nullable
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -14,15 +17,10 @@ class AutoCompleteSearchView(context: Context?, attrs: AttributeSet?) : LinearLa
 
     init {
         orientation=VERTICAL
-   /*     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setBackgroundColor(this.context.getColor(android.R.color.transparent))
-        }else{
-            setBackgroundColor(this.context.resources.getColor(android.R.color.transparent))
-
-        }*/
         searchView =getSearchViewLayout(this.context)
         addView(searchView)
         recyclerViewResults =getRecycleViewLayout(this.context)
+        recyclerViewResults?.layoutManager = LinearLayoutManager(this.context)
         addView(recyclerViewResults)
     }
 
@@ -40,7 +38,12 @@ class AutoCompleteSearchView(context: Context?, attrs: AttributeSet?) : LinearLa
         return recyclerView
     }
 
+    fun <I : RecyclerView.ViewHolder> setAdapter(adapter : RecyclerView.Adapter<I>){
+        recyclerViewResults?.adapter=adapter
+    }
+
     fun getRecycleViewResults()=recyclerViewResults
+
     fun getSearchView()=searchView
 
 }

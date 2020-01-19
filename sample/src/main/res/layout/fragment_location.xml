@@ -20,17 +20,19 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
-                <com.locationpicker.sample.base.widget.AutoCompleteSearchView
+                <com.softartch_lib.component.widget.AutoCompleteSearchView
                     android:id="@+id/searchViewAuto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />
+
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="match_parent"
                     android:layout_margin="8dp"
                     android:visibility="gone"
                         android:layout_height="20dp"/>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvSearchPlaceHolderMessage"
                     android:text="@string/no_result"
@@ -38,6 +40,7 @@
                     android:visibility="gone"
                     android:layout_margin="8dp"
                     android:layout_height="20dp"/>
+
             </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
