@@ -1,4 +1,4 @@
-package com.softtech.android_structure.base.utility
+package com.locationpicker.sample.base.utility
 
 import android.content.Context
 import android.graphics.Bitmap

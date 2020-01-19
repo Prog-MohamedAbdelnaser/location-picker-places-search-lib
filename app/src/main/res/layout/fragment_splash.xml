@@ -7,11 +7,12 @@
              tools:context=".features.splash.fragmentes.FragmentSplash">
 
 
-    <ImageView
+
+    <TextView
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:contentDescription="@null"
-        android:layout_height="wrap_content"
-        android:src="@drawable/rent" />
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:text="@string/loading"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

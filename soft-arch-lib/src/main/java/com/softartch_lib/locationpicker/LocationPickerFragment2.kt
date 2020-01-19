@@ -11,12 +11,8 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.common.GooglePlayServicesRepairableException
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
@@ -26,7 +22,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
@@ -34,21 +29,14 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.softartch_lib.R
 import com.softartch_lib.component.RequestDataState
 import com.softartch_lib.component.fragment.BaseFragment
-import com.softartch_lib.exceptions.EnableLocationServicetException
-import com.softartch_lib.exceptions.PermissionDeniedException
 import com.softartch_lib.utility.hideKeyboard
-import com.softtech.android_structure.base.utility.GpsUtility
-import com.softtech.android_structure.base.utility.MapUtility
+import com.locationpicker.sample.base.utility.GpsUtility
+import com.locationpicker.sample.base.utility.MapUtility
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Single
 import io.reactivex.SingleEmitter
-import io.reactivex.SingleSource
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Function
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import java.util.*
 
 
 abstract class LocationPickerFragment2 : BaseFragment(), OnMapReadyCallback {

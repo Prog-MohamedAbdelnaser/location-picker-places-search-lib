@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">android_structure</string>
+    <string name="app_name">Location Picker Sample</string>
 
     <string name="check_your_network_connection_and_try_again">تحقق من اتصال الشبكة لديك وحاول مرة أخرى</string>
     <string name="timeout_error_message">يبدو أن الخادم يستغرق وقتًا طويلاً للرد ، يرجى المحاولة مرة أخرى في وقت لاحق</string>
@@ -73,5 +73,6 @@
     <string name="media_picker_gallery">Gallary</string>
     <string name="media_picker_select_from">Pick Image From :</string>
     <string name="label_pick_image">Pick Image</string>
+    <string name="no_result">No Result !</string>
 
 </resources>

@@ -6,14 +6,19 @@ import android.app.Activity
 import android.content.*
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Typeface
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -24,6 +29,7 @@ import com.softartch_lib.component.RequestDataState
 import com.softartch_lib.utility.hideKeyboard
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
@@ -35,7 +41,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
@@ -50,10 +63,29 @@ import io.reactivex.SingleSource
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 @Suppress("RedundantLambdaArrow", "MissingPermission")
-abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback {
+abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback,
+
+
+    PlacesSearchResultAdapter.ClickPlaceItemListener  {
+
+    override fun clickPickedPlace(place: Place) {
+        setPickedPlace(place)
+    }
+
+    override fun clickPickedPlace(locationName:String) {
+
+    }
+
+    override fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {}
+
+    override fun onAutoCompleteSearchStart() {}
 
     companion object {
         const val SAUDIA_FILTER="SA"
@@ -65,8 +97,10 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         private const val defaultZoom: Float = 15f
 
         const val deviceInfoKey: String = "deviceInfoKey"
-    }
 
+        const val GOOGLE_API_KEY ="AIzaSyAjnK5xpEI0MbaYJHmIQkeYYDpV5sYj8-c"
+
+    }
 
     private  var localizationFillter: String=""
     @DrawableRes
@@ -118,6 +152,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     private var tvAddress: AppCompatTextView? = null
 
+    private var placesSearchResultAdapter : PlacesSearchResultAdapter ?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,18 +160,24 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     }
 
     override fun onViewInflated(parentView: View, childView: View) {
-        initEventHandlers()
-
         mapViewResource().onCreate(savedInstanceState)
-
         mapViewResource().getMapAsync(this)
-
         initViewModelObservers()
+
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), GOOGLE_API_KEY)
+        }
+
+        placesSearchResultAdapter = PlacesSearchResultAdapter(requireContext(),localizationFillter)
+        placesSearchResultAdapter?.setClickListener(this)
+
     }
 
-    private fun initEventHandlers() {
 
 
+    fun searchQueryListener(text:String){
+        //onStartAutoCompleteSearch()
+        placesSearchResultAdapter?.filter?.filter(text)
     }
 
     private fun initViewModelObservers() {
@@ -152,58 +193,29 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
     }
 
+    fun getAutoCompleteSearchResultAdapter():PlacesSearchResultAdapter{
+        return placesSearchResultAdapter!!
+    }
 
     fun setMapPickLoctionIcon(@DrawableRes iconRes:Int){
         resLocationIcon=iconRes
     }
-/*
-    fun openLocationSearchAutoComplete(){
-        try {
-            val intentBuilder: PlaceAutocomplete.IntentBuilder = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-            if (localizationFillter.isNotEmpty()) {
-                intentBuilder. setFilter(createAutocompleteFilter())
-            }
-             val intent =  intentBuilder.build(activity)
 
-            startActivityForResult(intent, placesAutoCompleteCode)
-        } catch (e: GooglePlayServicesRepairableException) {
-            e.printStackTrace()
-        } catch (e: GooglePlayServicesNotAvailableException) {
-            e.printStackTrace()
-        }
-    }
-
-*/
-
-
-
-
-    fun openLocationSearchAutoComplete(){
-
-
+    fun openLocationSearchAutoCompletePowerByGoogle(){
         val fields = listOf(
             Place.Field.ID, Place.Field.NAME,
             Place.Field.ADDRESS,
             Place.Field.LAT_LNG,
             Place.Field.ADDRESS_COMPONENTS);
 
-// Start the autocomplete intent.
         val  intent =  Autocomplete.IntentBuilder(
             AutocompleteActivityMode.FULLSCREEN, fields)
             .setCountry(localizationFillter?:"")
             .build(requireContext());
         startActivityForResult(intent, LocationPickerFragment2.PLACE_REQUEST_CODE);
 
-        /*  val intent: Intent = PlaceAutocomplete
-              .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-              .setFilter(createAutocompleteFilter())
-              .build(requireActivity())
-          startActivityForResult(intent, PLACE_REQUEST_CODE)
-
-
-
-  */
     }
+
     private fun handleLocationAddressState(state: RequestDataState<LocationAddress>?) {
         when(state){
             is RequestDataState.LoadingShow->{setMarkerTitle("loading...")}
@@ -562,6 +574,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         addMarkerAndMoveToSelectedLocation(googleMap, place.latLng!!, place.address.toString())
         onGetLocationAddress(LocationAddress(place.latLng!!.latitude,place.latLng!!.longitude,place.address.toString()))
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.w("onActivityResult", "onReceive ${data?.toString()}")
 
@@ -594,65 +607,12 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                 }
 
             }
-/*            when (resultCode) {
-                Activity.RESULT_OK -> {
-
-
-                    val place: Place = PlaceAutocomplete.getPlace(activity, data)
-                    shouldMarkerFollowUserLocation = false
-                    targetAccuracy = 0f
-                    addMarkerAndMoveToSelectedLocation(googleMap, place.latLng, place.address.toString())
-                    onGetLocationAddress(LocationAddress(place.latLng.latitude,place.latLng.longitude,place.address.toString()))
-                    println("onGetLocationAddress ResultAct${place.latLng.longitude  } ,${place.latLng.latitude}")
-
-                }
-                PlaceAutocomplete.RESULT_ERROR -> {
-                    val status: Status = PlaceAutocomplete.getStatus(activity, data)
-                }
-                Activity.RESULT_CANCELED ->{}
-
-
-
-
-            }*/
         }
     }
-
-
-
-/*    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater?.inflate(R.menu.map_search, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item?.itemId == R.id.search) {
-            try {
-                val intent: Intent = PlaceAutocomplete
-                        .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                        .setFilter(createAutocompleteFilter())
-                        .build(activity)
-                startActivityForResult(intent, placesAutoCompleteCode)
-            } catch (e: GooglePlayServicesRepairableException) {
-                e.printStackTrace()
-            } catch (e: GooglePlayServicesNotAvailableException) {
-                e.printStackTrace()
-            }
-
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
-
-
-/*
-    private fun createAutocompleteFilter(): AutocompleteFilter = AutocompleteFilter.Builder()
-            .setCountry(localizationFillter)
-            .build()
-*/
 
     fun setSearchLocalizationFilter(localFilter: String){
         localizationFillter=localFilter
+        placesSearchResultAdapter?.localizationFillter=localizationFillter
     }
 
     override fun onResume() {
@@ -720,11 +680,14 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                     }
                 } else {
                     this@LocationPickerFragmentWithSearchBar.stopLocationUpdate()
-                    //showErrorSnackbar(contentView, getString(R.string.wont_detect_location))
                 }
             }
         }
     }
 
     open fun onGetLocationAddress(locationAddress: LocationAddress) {}
+
+/*    open fun onStartAutoCompleteSearch(){}
+
+    open fun onFinishedAutoCompleteSearch(resultIsNotEmpty:Boolean){}*/
 }

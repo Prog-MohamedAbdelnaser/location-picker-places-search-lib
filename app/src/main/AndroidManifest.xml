@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.softtech.android_structure">
+    package="com.locationpicker.sample">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-
 
     <application
-        android:name=".application.ApplicationClass"
+        android:name="com.locationpicker.sample.application.ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -24,33 +19,10 @@
         tools:replace="android:allowBackup"
         >
 
-        <activity android:name=".features.chat.activities.ChatRooms"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name=".features.chat.activities.ChatActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".features.temp.activities.LocationActivity" />
-
-        <activity
-            android:name=".features.authorization.verification.activities.VerificationActivity"
-            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar" />
-
-        <activity
-            android:name=".features.authorization.AuthorizationActivity"
-            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-
-        <activity
-            android:name=".features.home.activities.HomeActivity"
-            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".features.splash.SplashActivity"
@@ -62,12 +34,9 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".base.utility.EnableLocationServiceSetting"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            android:screenOrientation="portrait" />
-        <activity android:name=".features.location.activities.LocationAddress"/>
+        <activity android:name=".features.location.activities.LocationAddress"
+
+            android:theme="@style/AppTheme.NoActionBar_WhiteStatusBar"/>
     </application>
 
 </manifest>

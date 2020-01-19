@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.softartch_lib.utility.TimeConvertor
 import org.koin.android.ext.android.inject
@@ -17,4 +18,10 @@ inline fun LocalDate.toFormat( parseFormat:String,date: LocalDate,local:Locale= 
     val dateFormat = SimpleDateFormat(parseFormat,local)
     return dateFormat.format(date)
 }
+inline fun View.show(){
+    this.visibility=View.VISIBLE
+}
 
+inline fun View.hide(){
+    this.visibility=View.GONE
+}
