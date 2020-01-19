@@ -73,6 +73,10 @@ Make you owen map fragment child of LocationPickerFragmentWithSearchBar.
         initRecycleView()
 
         initAutoSearchQuery()
+
+	     
+        // to initialize map location pin 
+        setMapPickLoctionIcon(R.drawable.ic_location)
     
     }
 
