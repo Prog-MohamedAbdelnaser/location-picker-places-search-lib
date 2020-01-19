@@ -18,12 +18,14 @@ Or
 Import the library, then add it to your /settings.gradle and /app/build.gradle. 
 
 ### Step 2
-Make you owen map fragment child of LocationPickerFragmentWithSearchBar
+Make you owen map fragment child of LocationPickerFragmentWithSearchBar.
 
 
 
-class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
+    class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
+
     //initialize map view with parent map view
+
     override fun mapViewResource(): MapView =mapView
 
     //inflate your owen fragment design in  parent fragment design 
