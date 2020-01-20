@@ -1,4 +1,4 @@
-# location-picker-places_search-lib
+# location-picker-places-search-lib
 An Android library that provides a location picker and auto complete search about locations
 
 # Usage
@@ -9,7 +9,7 @@ For a working implementation of this project see the sample/ folder.
 Include the library as a local library project or add the dependency in your build.gradle.
 
 ```groovy
-dependencies {soft-arch-lib
+dependencies {
 	        implementation 'com.github.Prog-MohamedAbdelnaser:softartch-lib:Tag'
 }
 ```
