@@ -20,6 +20,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
@@ -70,22 +71,19 @@ import kotlin.collections.ArrayList
 
 
 @Suppress("RedundantLambdaArrow", "MissingPermission")
-abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback,
+abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback,Filterable{
 
-
-    PlacesSearchResultAdapter.ClickPlaceItemListener  {
-
-    override fun clickPickedPlace(place: Place) {
+    open fun clickPickedPlace(place: Place) {
         setPickedPlace(place)
     }
 
-    override fun clickPickedPlace(locationName:String) {
+    open fun clickPickedPlace(locationName:String) {
 
     }
 
-    override fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {}
+    open fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {}
 
-    override fun onAutoCompleteSearchStart() {}
+    open fun onAutoCompleteSearchStart() {}
 
     companion object {
         const val SAUDIA_FILTER="SA"
@@ -109,7 +107,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     abstract fun mapViewResource(): MapView
 
-    private val locationPermissionRequestCode = 1500
+    protected val locationPermissionRequestCode = 1500
 
     private val placesAutoCompleteCode = 2000
 
@@ -155,6 +153,11 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     private var placesSearchResultAdapter : PlacesSearchResultAdapter ?=null
 
+    private var searchResultList: ArrayList<PlaceAutoComplete> = ArrayList()
+
+    private lateinit var  placesClient: PlacesClient
+    private lateinit var token:AutocompleteSessionToken
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.savedInstanceState = savedInstanceState
@@ -169,16 +172,18 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             Places.initialize(requireContext(), GOOGLE_API_KEY)
         }
 
+        placesClient = Places.createClient(requireContext())
+        token = AutocompleteSessionToken.newInstance()
         placesSearchResultAdapter = PlacesSearchResultAdapter(requireContext(),localizationFillter)
-        placesSearchResultAdapter?.setClickListener(this)
+       // placesSearchResultAdapter?.setClickListener(this)
 
     }
 
 
-
     fun searchQueryListener(text:String){
         //onStartAutoCompleteSearch()
-        placesSearchResultAdapter?.filter?.filter(text)
+       //filter.filter(text)
+        locationViewModel.filter(text,localizationFillter)
     }
 
     private fun initViewModelObservers() {
@@ -191,8 +196,36 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
             })
 
+            placesSearchLiveDataState.observe(this@LocationPickerFragmentWithSearchBar, Observer {
+                handlePlaceSearchState(it)
+            })
+
         }
     }
+
+    private fun handlePlaceSearchState(state: RequestDataState<java.util.ArrayList<PlaceAutoComplete>>?) {
+        when(state){
+            is RequestDataState.LoadingShow->{onAutoCompleteSearchStart()}
+            is RequestDataState.Success->{
+                onAutoCompleteSearchFinised(state.data.size>0)
+                placesSearchResultAdapter?.setResultList(state.data)
+                placesSearchResultAdapter?.notifyDataSetChanged()
+            }
+            is RequestDataState.Error->{
+                state.exception.printStackTrace()
+                onAutoCompleteSearchFailure(state.exception)
+            }
+        }
+    }
+
+    open fun onAutoCompleteSearchFailure(exception: Throwable) {
+
+    }
+
+    fun getAutoCompleteSearchResultList():List<PlaceAutoComplete>{
+        return searchResultList
+    }
+
 
     fun getAutoCompleteSearchResultAdapter():PlacesSearchResultAdapter{
         return placesSearchResultAdapter!!
@@ -213,7 +246,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             AutocompleteActivityMode.FULLSCREEN, fields)
             .setCountry(localizationFillter?:"")
             .build(requireContext());
-        startActivityForResult(intent, LocationPickerFragment2.PLACE_REQUEST_CODE);
+      //  startActivityForResult(intent, LocationPickerFragment2.PLACE_REQUEST_CODE);
 
     }
 
@@ -688,7 +721,78 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     open fun onGetLocationAddress(locationAddress: LocationAddress) {}
 
-/*    open fun onStartAutoCompleteSearch(){}
+    override fun getFilter(): Filter {
+        onAutoCompleteSearchStart()
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val results = FilterResults()
+                if (constraint != null) {
 
-    open fun onFinishedAutoCompleteSearch(resultIsNotEmpty:Boolean){}*/
+                    searchResultList = getPredictions(constraint)
+                    if (searchResultList != null) {
+                        results.values = searchResultList
+                        results.count = searchResultList.size
+                    }
+                }
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                onAutoCompleteSearchFinised(searchResultList.size>0)
+                placesSearchResultAdapter?.notifyDataSetChanged()
+            }
+
+        }
+    }
+
+    fun getPredictions(constraint: CharSequence): ArrayList<PlaceAutoComplete> {
+
+        val STYLE_NORMAL = StyleSpan(Typeface.NORMAL)
+        val STYLE_BOLD = StyleSpan(Typeface.BOLD)
+
+        val resultList = ArrayList<PlaceAutoComplete>()
+
+        val request = FindAutocompletePredictionsRequest.builder()
+            .setSessionToken(token)
+            .setQuery(constraint.toString())
+            .setCountry(localizationFillter)
+            .setTypeFilter(TypeFilter.ADDRESS)
+            .build()
+
+
+        val autoCompletePredictions = placesClient?.findAutocompletePredictions(request)
+
+        Tasks.await(autoCompletePredictions!!, 60, TimeUnit.SECONDS)
+
+        autoCompletePredictions.addOnSuccessListener {
+            if (it.autocompletePredictions.isNullOrEmpty().not()){
+                it.autocompletePredictions.iterator().forEach { it ->
+                    Log.i("getPredictions","getPredictions ${it.toString()}")
+                    resultList.add(PlaceAutoComplete(
+                        it.placeId,
+                        it.getPrimaryText(STYLE_NORMAL).toString(),
+                        it.getFullText(STYLE_BOLD).toString()))
+                }
+            }
+        }.addOnFailureListener {
+            it.message?.let { it1 -> showErrorAlertToUser(it1) }
+            it.printStackTrace()
+        }
+        return resultList
+    }
+
+
+    private fun showErrorAlertToUser(msg: String) {
+
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setMessage(msg)
+            .setCancelable(false)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.cancel()
+            }
+
+        val alert = alertDialogBuilder.create()
+        alert.show()
+    }
+
 }

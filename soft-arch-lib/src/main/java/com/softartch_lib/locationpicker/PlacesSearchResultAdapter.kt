@@ -29,13 +29,16 @@ import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
-class PlacesSearchResultAdapter(val context: Context,var localizationFillter:String) : RecyclerView.Adapter<PlacesSearchResultAdapter.PredictionHolder>(),Filterable{
+class PlacesSearchResultAdapter(val context: Context,var localizationFillter:String) : RecyclerView.Adapter<PlacesSearchResultAdapter.PredictionHolder>(){
 
     private val STYLE_NORMAL = StyleSpan(Typeface.NORMAL)
     private val STYLE_BOLD = StyleSpan(Typeface.BOLD)
     private lateinit var clickPlaceItemListener: ClickPlaceItemListener
     private var mResultList: ArrayList<PlaceAutoComplete> = ArrayList()
 
+    fun setResultList(resultList: ArrayList<PlaceAutoComplete>){
+        mResultList=resultList
+    }
     private val placesClient: PlacesClient = Places.createClient(context)
     val token = AutocompleteSessionToken.newInstance()
 
@@ -51,6 +54,7 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
 
     }
 
+/*
     override fun getFilter(): Filter {
         clickPlaceItemListener. onAutoCompleteSearchStart()
         return object : Filter() {
@@ -75,8 +79,9 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
 
         }
     }
+*/
 
-    fun getPredictions(constraint: CharSequence): ArrayList<PlaceAutoComplete> {
+/*    fun getPredictions(constraint: CharSequence): ArrayList<PlaceAutoComplete> {
 
         val STYLE_NORMAL = StyleSpan(Typeface.NORMAL)
         val STYLE_BOLD = StyleSpan(Typeface.BOLD)
@@ -110,7 +115,7 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
             it.printStackTrace()
         }
         return resultList
-    }
+    }*/
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PredictionHolder {

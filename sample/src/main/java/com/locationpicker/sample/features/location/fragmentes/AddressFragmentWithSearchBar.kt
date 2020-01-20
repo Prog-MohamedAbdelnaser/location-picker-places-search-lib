@@ -22,6 +22,14 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
 
     override fun layoutResource(): Int = R.layout.fragment_location
 
+    override fun onAutoCompleteSearchFailure(exception: Throwable) {
+        searchViewAuto.getRecycleViewResults()!!.hide()
+        progressBar.hide()
+        tvSearchPlaceHolderMessage.show()
+        tvSearchPlaceHolderMessage.text=exception.message
+        //searchViewAuto.getSearchView()?.setQuery("", true);
+
+    }
     override fun clickPickedPlace(locationName:String) {
         searchViewAuto.getRecycleViewResults()!!.hide()
         progressBar.hide()
@@ -43,6 +51,7 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
         if (resultIsNotEmpty.not()){
             searchViewAuto.getRecycleViewResults()!!.hide()
             tvSearchPlaceHolderMessage.show()
+            tvSearchPlaceHolderMessage.text = getString(R.string.no_result)
         }
 
     }
@@ -93,7 +102,7 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
 
         // todo handle as you need the pick location result or location selected from search
 
-        Log.i("onGetLocationAddress","${locationAddress.toString()}")
+        Log.i("onGetLocationAddress","$locationAddress")
     }
 
 
