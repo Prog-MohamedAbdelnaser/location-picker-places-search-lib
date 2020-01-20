@@ -50,10 +50,19 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
     override fun onViewInflated(parentView: View, childView: View) {
         super.onViewInflated(parentView, childView)
 
-       //to fillter auto complete  search result
+        //to fillter auto complete  search result
         // setSearchLocalizationFilter(SAUDIA_FILTER)
 
         initRecycleView()
+
+        initAutoSearchQuery()
+
+        // to initialize map location pin
+        setMapPickLoctionIcon(R.drawable.ic_location)
+
+    }
+
+    private fun initAutoSearchQuery() {
 
         searchViewAuto.getSearchView()?.setOnQueryTextListener(object :SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -70,12 +79,11 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
                 return false
             }
         })
-        //setSearchCountryFilter("")
     }
 
     private fun initRecycleView() {
 
-        // todo  initialize you custome recycler view to set in it auto complete search result adapter
+        // todo  initialize recycler in search view adapter to set in it auto complete search result adapter
 
         val adapter=getAutoCompleteSearchResultAdapter()
         searchViewAuto.setAdapter(adapter)
@@ -86,10 +94,6 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
         // todo handle as you need the pick location result or location selected from search
 
         Log.i("onGetLocationAddress","${locationAddress.toString()}")
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
 
