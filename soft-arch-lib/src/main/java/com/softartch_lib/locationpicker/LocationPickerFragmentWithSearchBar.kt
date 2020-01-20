@@ -98,9 +98,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
         const val deviceInfoKey: String = "deviceInfoKey"
 
-
         // const val GOOGLE_API_KEY ="AIzaSyBa3yCy4tWnGrzJ04A-kov18BBkUeuCj6s"
-        const val GOOGLE_API_KEY ="AIzaSyAt5t6hKxU1wCyAZ1JQMT-gPjtCSp3FeQo"
 
     }
 
