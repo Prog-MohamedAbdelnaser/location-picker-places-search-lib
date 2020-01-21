@@ -1,4 +1,4 @@
-# location-picker-places-search-lib
+# locationPicker&placesSearch library
 An Android library that provides a location picker and auto complete search about locations
 
 # Usage
