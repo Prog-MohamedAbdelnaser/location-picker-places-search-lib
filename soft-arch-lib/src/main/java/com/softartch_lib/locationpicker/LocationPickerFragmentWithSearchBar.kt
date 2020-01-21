@@ -71,13 +71,14 @@ import kotlin.collections.ArrayList
 
 
 @Suppress("RedundantLambdaArrow", "MissingPermission")
-abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback,Filterable{
+abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyCallback, PlacesSearchResultAdapter.ClickPlaceItemListener{
 
-    open fun clickPickedPlace(place: Place) {
+
+    override fun clickPickedPlace(place: Place) {
         setPickedPlace(place)
     }
 
-    open fun clickPickedPlace(locationName:String) {
+    override fun clickPickedPlace(locationName: String) {
 
     }
 
@@ -96,8 +97,6 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
         const val deviceInfoKey: String = "deviceInfoKey"
 
-         const val GOOGLE_API_KEY ="AIzaSyBa3yCy4tWnGrzJ04A-kov18BBkUeuCj6s"
-
     }
 
     private  var localizationFillter: String=""
@@ -106,6 +105,10 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     var resLocationIcon:Int?=R.drawable.ic_location
 
     abstract fun mapViewResource(): MapView
+
+    abstract fun setGoogleAPIKEY(): String
+
+     private var GOOGLE_API_KEY :String?=null
 
     protected val locationPermissionRequestCode = 1500
 
@@ -155,30 +158,37 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     private var searchResultList: ArrayList<PlaceAutoComplete> = ArrayList()
 
-    private lateinit var  placesClient: PlacesClient
-    private lateinit var token:AutocompleteSessionToken
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.savedInstanceState = savedInstanceState
+
     }
 
     override fun onViewInflated(parentView: View, childView: View) {
         mapViewResource().onCreate(savedInstanceState)
         mapViewResource().getMapAsync(this)
-        initViewModelObservers()
 
-        if (!Places.isInitialized()) {
-            Places.initialize(requireContext(), GOOGLE_API_KEY)
+        GOOGLE_API_KEY=setGoogleAPIKEY()
+
+        try {
+            if (!Places.isInitialized()) {
+                Places.initialize(requireContext(), GOOGLE_API_KEY!!)
+            }
+
+        }catch (e:Exception){
+            e.printStackTrace()
         }
 
-        placesClient = Places.createClient(requireContext())
-        token = AutocompleteSessionToken.newInstance()
         placesSearchResultAdapter = PlacesSearchResultAdapter(requireContext(),localizationFillter)
+
+        placesSearchResultAdapter!!.setClickListener(this)
+        initViewModelObservers()
+
+
+
        // placesSearchResultAdapter?.setClickListener(this)
 
     }
-
 
     fun searchQueryListener(text:String){
         //onStartAutoCompleteSearch()
@@ -246,7 +256,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             AutocompleteActivityMode.FULLSCREEN, fields)
             .setCountry(localizationFillter?:"")
             .build(requireContext());
-      //  startActivityForResult(intent, LocationPickerFragment2.PLACE_REQUEST_CODE);
+        startActivityForResult(intent, placesAutoCompleteCode);
 
     }
 
@@ -262,8 +272,13 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             }
             is RequestDataState.Error->{
                 state.exception.printStackTrace()
+                onGetLocationAddressFailure(state.exception)
             }
         }
+    }
+
+    open fun onGetLocationAddressFailure(exception: Throwable) {
+
     }
 
     fun setMarkerTitle(title:String){
@@ -633,6 +648,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
             when (resultCode) {
                 Activity.RESULT_OK -> {
+
                     val place = Autocomplete.getPlaceFromIntent(data!!);
                     setPickedPlace(place)
                 }
@@ -721,65 +737,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     open fun onGetLocationAddress(locationAddress: LocationAddress) {}
 
-    override fun getFilter(): Filter {
-        onAutoCompleteSearchStart()
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val results = FilterResults()
-                if (constraint != null) {
 
-                    searchResultList = getPredictions(constraint)
-                    if (searchResultList != null) {
-                        results.values = searchResultList
-                        results.count = searchResultList.size
-                    }
-                }
-                return results
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                onAutoCompleteSearchFinised(searchResultList.size>0)
-                placesSearchResultAdapter?.notifyDataSetChanged()
-            }
-
-        }
-    }
-
-    fun getPredictions(constraint: CharSequence): ArrayList<PlaceAutoComplete> {
-
-        val STYLE_NORMAL = StyleSpan(Typeface.NORMAL)
-        val STYLE_BOLD = StyleSpan(Typeface.BOLD)
-
-        val resultList = ArrayList<PlaceAutoComplete>()
-
-        val request = FindAutocompletePredictionsRequest.builder()
-            .setSessionToken(token)
-            .setQuery(constraint.toString())
-            .setCountry(localizationFillter)
-            .setTypeFilter(TypeFilter.ADDRESS)
-            .build()
-
-
-        val autoCompletePredictions = placesClient?.findAutocompletePredictions(request)
-
-        Tasks.await(autoCompletePredictions!!, 60, TimeUnit.SECONDS)
-
-        autoCompletePredictions.addOnSuccessListener {
-            if (it.autocompletePredictions.isNullOrEmpty().not()){
-                it.autocompletePredictions.iterator().forEach { it ->
-                    Log.i("getPredictions","getPredictions ${it.toString()}")
-                    resultList.add(PlaceAutoComplete(
-                        it.placeId,
-                        it.getPrimaryText(STYLE_NORMAL).toString(),
-                        it.getFullText(STYLE_BOLD).toString()))
-                }
-            }
-        }.addOnFailureListener {
-            it.message?.let { it1 -> showErrorAlertToUser(it1) }
-            it.printStackTrace()
-        }
-        return resultList
-    }
 
 
     private fun showErrorAlertToUser(msg: String) {

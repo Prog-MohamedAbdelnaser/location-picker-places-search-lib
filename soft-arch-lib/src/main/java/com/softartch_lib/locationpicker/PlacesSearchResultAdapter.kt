@@ -36,86 +36,27 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
     private lateinit var clickPlaceItemListener: ClickPlaceItemListener
     private var mResultList: ArrayList<PlaceAutoComplete> = ArrayList()
 
+    private var placesClient: PlacesClient?=null
+    init {
+        try {
+            placesClient= Places.createClient(context)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
     fun setResultList(resultList: ArrayList<PlaceAutoComplete>){
         mResultList=resultList
     }
-    private val placesClient: PlacesClient = Places.createClient(context)
-    val token = AutocompleteSessionToken.newInstance()
 
     fun setClickListener(clickPlaceItemListener: ClickPlaceItemListener) {
         this.clickPlaceItemListener = clickPlaceItemListener
     }
 
     interface ClickPlaceItemListener {
-        fun onAutoCompleteSearchStart()
-        fun onAutoCompleteSearchFinised(resultIsNotEmpty:Boolean)
         fun clickPickedPlace(place: Place)
         fun clickPickedPlace(locationName:String)
 
     }
-
-/*
-    override fun getFilter(): Filter {
-        clickPlaceItemListener. onAutoCompleteSearchStart()
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val results = FilterResults()
-                if (constraint != null) {
-
-                    mResultList = getPredictions(constraint)
-                    if (mResultList != null) {
-                        results.values = mResultList
-                        results.count = mResultList.size
-                    }
-                }
-                return results
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                Log.i("inputLocationAddress","getFilter ${mResultList.size>0}")
-                clickPlaceItemListener.onAutoCompleteSearchFinised(mResultList.size>0)
-                notifyDataSetChanged()
-            }
-
-        }
-    }
-*/
-
-/*    fun getPredictions(constraint: CharSequence): ArrayList<PlaceAutoComplete> {
-
-        val STYLE_NORMAL = StyleSpan(Typeface.NORMAL)
-        val STYLE_BOLD = StyleSpan(Typeface.BOLD)
-
-        val resultList = ArrayList<PlaceAutoComplete>()
-
-        val request = FindAutocompletePredictionsRequest.builder()
-            .setSessionToken(token)
-            .setQuery(constraint.toString())
-            .setCountry(localizationFillter)
-            .setTypeFilter(TypeFilter.ADDRESS)
-            .build()
-
-
-        val autoCompletePredictions = placesClient?.findAutocompletePredictions(request)
-
-        Tasks.await(autoCompletePredictions!!, 60, TimeUnit.SECONDS)
-
-        autoCompletePredictions.addOnSuccessListener {
-            if (it.autocompletePredictions.isNullOrEmpty().not()){
-                it.autocompletePredictions.iterator().forEach { it ->
-                    Log.i("getPredictions","getPredictions ${it.toString()}")
-                    resultList.add(PlaceAutoComplete(
-                        it.placeId,
-                        it.getPrimaryText(STYLE_NORMAL).toString(),
-                        it.getFullText(STYLE_BOLD).toString()))
-                }
-            }
-        }.addOnFailureListener {
-            it.message?.let { it1 -> showErrorAlertToUser(it1) }
-            it.printStackTrace()
-        }
-        return resultList
-    }*/
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PredictionHolder {
@@ -150,13 +91,14 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
                 val placeId = item.placeId.toString()
                 val placeFields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.ADDRESS)
                 val request = FetchPlaceRequest.builder(placeId, placeFields).build()
-                placesClient.fetchPlace(request).addOnSuccessListener { p0 ->
+
+                placesClient?.fetchPlace(request)?.addOnSuccessListener { p0 ->
                         val place = p0!!.place
                         clickPlaceItemListener.clickPickedPlace(place)
                          clickPlaceItemListener. clickPickedPlace(place.address!!)
 
 
-                }.addOnFailureListener { p0 ->
+                }?.addOnFailureListener { p0 ->
                     if (p0 is ApiException) {
                         Log.d("Home Activity ->", p0.message)
                         Toast.makeText(context, p0.message, Toast.LENGTH_LONG).show()

@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_location.*
 
 class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
 
-
+    override fun setGoogleAPIKEY(): String =""
 
     override fun mapViewResource(): MapView =mapView
 
@@ -88,14 +88,19 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
                 return false
             }
         })
+
+        searchViewAuto.getSearchView()?.setOnCloseListener {
+            searchViewAuto.getRecycleViewResults()!!.hide()
+            tvSearchPlaceHolderMessage.hide()
+            false
+        }
     }
 
     private fun initRecycleView() {
 
         // todo  initialize recycler in search view adapter to set in it auto complete search result adapter
-
         val adapter=getAutoCompleteSearchResultAdapter()
-        searchViewAuto.setAdapter(adapter)
+        adapter?.let { searchViewAuto.setAdapter(it) }
     }
 
     override fun onGetLocationAddress(locationAddress: LocationAddress) {

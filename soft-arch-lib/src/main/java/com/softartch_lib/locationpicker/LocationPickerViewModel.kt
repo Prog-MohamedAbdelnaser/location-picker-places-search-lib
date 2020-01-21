@@ -4,11 +4,8 @@ import android.content.Context
 import android.graphics.Typeface
 import android.text.style.StyleSpan
 import android.util.Log
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.softartch_lib.component.RequestDataState
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Tasks
 import com.google.android.libraries.places.api.Places
@@ -17,13 +14,13 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.maps.android.SphericalUtil
-import com.softartch_lib.locationpicker.LocationPickerFragmentWithSearchBar.Companion.GOOGLE_API_KEY
+import com.softartch_lib.component.RequestDataState
+import com.softartch_lib.exceptions.ApiKeyRequiredException
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import org.koin.android.ext.koin.androidApplication
 import java.util.concurrent.TimeUnit
 
 class LocationPickerViewModel(private val locationAddressUseCase: LocationAddressUseCase,
@@ -31,18 +28,18 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
                                private val contect:Context) : ViewModel() {
 
     private val disposables=CompositeDisposable()
+
     var lastSelectedLocation :LatLng?=null
+
     private var targetAddress: String? = null
+
     private var targetLocationAddress: LocationAddress?=null
 
     var locationAddressLiveDataState =MutableLiveData<RequestDataState<LocationAddress>>()
 
     var placesSearchLiveDataState =MutableLiveData<RequestDataState<ArrayList<PlaceAutoComplete>>>()
 
-
-
-
-    lateinit var placesClient:PlacesClient
+    var placesClient:PlacesClient?=null
 
     companion object {
         const val ONE_METER = 1
@@ -50,12 +47,13 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
 
     private val locationAddressSubject = PublishSubject.create<LatLng>()
 
-
     init {
 
-        Places.initialize(contect, GOOGLE_API_KEY)
-       placesClient = Places.createClient(contect)
-
+        try {
+            placesClient = Places.createClient(contect)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
         disposables.add(locationAddressSubject
             .filter {
                 val filter =
@@ -78,8 +76,6 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
             })
     }
 
-
-
     fun onCameraIdle(location: LatLng) {
 
         Log.i("onCameraIdle","location${location.toString()}")
@@ -99,17 +95,16 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-    Log.i("Location","fetchLocationAddress$it")
-    targetAddress = it
-                targetLocationAddress =LocationAddress(latlng!!.latitude,latlng.longitude,it)
-    locationAddressLiveDataState.value =RequestDataState.Success(targetLocationAddress!!)
 
-}, {
-    it.printStackTrace()
-    locationAddressLiveDataState.value = RequestDataState.Error(it)
-})
-)
-}
+                targetAddress = it
+                targetLocationAddress =LocationAddress(latlng!!.latitude,latlng.longitude,it)
+                locationAddressLiveDataState.value =RequestDataState.Success(targetLocationAddress!!)
+
+            }, {
+                locationAddressLiveDataState.value = RequestDataState.Error(it)
+            })
+        )
+    }
 
     fun setTargetAddress(targetAddress: String?) {
         this.targetAddress = targetAddress
@@ -120,31 +115,6 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
         setTargetAddress(targetLocationAddress!!.addressName)
     }
 
-/*    override fun getFilter(): Filter {
-
-
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val results = FilterResults()
-                if (constraint != null) {
-
-                    searchResultList = getPredictions(constraint)
-                    if (searchResultList != null) {
-                        results.values = searchResultList
-                        results.count = searchResultList.size
-                    }
-                }
-                return results
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                onAutoCompleteSearchFinised(searchResultList.size>0)
-                placesSearchResultAdapter?.notifyDataSetChanged()
-            }
-
-        }
-    }*/
-
      fun filter(constraint: CharSequence,localizationFillter:String=""){
          disposables.add(getPredictions(constraint,localizationFillter)
              .subscribeOn(Schedulers.io())
@@ -154,6 +124,7 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
              .subscribe({
                  placesSearchLiveDataState.value=RequestDataState.Success(it)
              },{
+                 it.printStackTrace()
                  placesSearchLiveDataState.value=RequestDataState.Error(it)
              }))
      }
@@ -162,6 +133,10 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
 
        return Single.create<ArrayList<PlaceAutoComplete>> {emitter->
 
+           if (placesClient==null){
+               emitter.onError(ApiKeyRequiredException(message = "ApiKeyRequiredException"))
+               return@create
+           }
         val STYLE_NORMAL = StyleSpan(Typeface.NORMAL)
         val STYLE_BOLD = StyleSpan(Typeface.BOLD)
 
@@ -193,7 +168,9 @@ class LocationPickerViewModel(private val locationAddressUseCase: LocationAddres
                 emitter.onSuccess(resultList)
             }
 
-        }.addOnFailureListener { emitter.onError(it) }
+        }.addOnFailureListener {
+            emitter.onError(it)
+        }
 
        }
     }
