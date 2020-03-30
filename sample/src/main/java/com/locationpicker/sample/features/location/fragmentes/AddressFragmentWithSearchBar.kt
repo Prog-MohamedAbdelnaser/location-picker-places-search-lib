@@ -39,6 +39,8 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
 
     }
 
+
+
     override fun onAutoCompleteSearchStart() {
         searchViewAuto.getRecycleViewResults()!!.show()
         progressBar.show()

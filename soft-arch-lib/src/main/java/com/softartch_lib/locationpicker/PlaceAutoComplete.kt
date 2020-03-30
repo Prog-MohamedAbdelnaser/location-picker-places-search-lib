@@ -1,3 +1,6 @@
 package com.softartch_lib.locationpicker
 
-data class PlaceAutoComplete(val placeId:String,val placeName:String,val placeFullDescription:String)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize data class PlaceAutoComplete(val placeId:String, val placeName:String, val placeFullDescription:String):Parcelable
