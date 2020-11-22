@@ -6,19 +6,15 @@ import android.app.Activity
 import android.content.*
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Typeface
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.style.StyleSpan
 import android.util.Log
 import android.view.*
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.Toast
+import android.widget.SearchView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
@@ -28,9 +24,6 @@ import androidx.lifecycle.Observer
 import com.softartch_lib.R
 import com.softartch_lib.component.RequestDataState
 import com.softartch_lib.utility.hideKeyboard
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.common.GooglePlayServicesRepairableException
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
@@ -42,31 +35,25 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.softartch_lib.component.extension.hide
+import com.softartch_lib.component.extension.show
 
 
 import com.softartch_lib.exceptions.LocationServiceRequestException
 import com.softartch_lib.exceptions.PermissionDeniedException
 import com.softartch_lib.component.fragment.BaseFragment
+import com.softartch_lib.component.widget.AutoCompleteSearchView
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.SingleSource
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import java.util.concurrent.ExecutionException
-import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -80,11 +67,36 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     override fun clickPickedPlace(locationName: String) {
 
+        println("clickPickedPlace")
+        searchViewAuto!!.getRecycleViewResults()!!.hide()
+        searchViewAuto!!.getProgressBar()!!.hide()
+        searchViewAuto!!.getTextViewPlaceHolder()!!.hide()
+        searchViewAuto!!.getSearchView()?.clearFocus()
+
     }
 
-    open fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {}
+    open fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {
+        searchViewAuto!!.getRecycleViewResults()!!.show()
+        searchViewAuto!!.getProgressBar()!!.hide()
+        if (resultIsNotEmpty.not()){
+            searchViewAuto!!.getRecycleViewResults()!!.hide()
+            searchViewAuto!!.getTextViewPlaceHolder()!!.show()
+            searchViewAuto!!.getTextViewPlaceHolder()!!.text = getString(R.string.no_result)
+        }
 
-    open fun onAutoCompleteSearchStart() {}
+    }
+
+    open fun onAutoCompleteSearchStart() {
+        searchViewAuto!!.getRecycleViewResults()!!.show()
+        searchViewAuto!!.getProgressBar()!!.show()
+    }
+
+    open fun onAutoCompleteSearchFailure(exception: Throwable) {
+        searchViewAuto!!.getRecycleViewResults()!!.hide()
+        searchViewAuto!!.getProgressBar()!!.hide()
+        searchViewAuto!!.getTextViewPlaceHolder()!!.show()
+        searchViewAuto!!.getTextViewPlaceHolder()!!.text=exception.message
+    }
 
     companion object {
         const val SAUDIA_FILTER="SA"
@@ -100,6 +112,8 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     }
 
     private  var localizationFillter: String=""
+
+    private var loadingTextPlaceHolder:String = "Loading...";
 
     @DrawableRes
     var resLocationIcon:Int?=R.drawable.ic_location
@@ -158,6 +172,9 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     private var searchResultList: ArrayList<PlaceAutoComplete> = ArrayList()
 
+    private var searchViewAuto:AutoCompleteSearchView?=null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.savedInstanceState = savedInstanceState
@@ -185,15 +202,47 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         initViewModelObservers()
 
 
-
        // placesSearchResultAdapter?.setClickListener(this)
 
     }
 
-    fun searchQueryListener(text:String){
-        //onStartAutoCompleteSearch()
-       //filter.filter(text)
-        locationViewModel.filter(text,localizationFillter)
+    fun setSearchViewAutoComplete(searchView: AutoCompleteSearchView){
+        this.searchViewAuto=searchView
+        initSearchViewRecyclerView()
+        initSearchQueryListener()
+    }
+
+    fun initSearchViewRecyclerView(){
+        val adapter=getAutoCompleteSearchResultAdapter()
+        adapter?.let { searchViewAuto!!.setAdapter(it) }
+    }
+
+    fun searchQueryListener(newText: CharSequence) {
+        locationViewModel.filter(newText,localizationFillter)
+    }
+
+    private fun initSearchQueryListener(){
+        searchViewAuto!!.getSearchView()?.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty().not()) {
+                    searchQueryListener(newText!!)
+                }else{
+                    searchViewAuto!!.getRecycleViewResults()!!.hide()
+                }
+                return false
+            }
+        })
+
+        searchViewAuto!!.getSearchView()?.setOnCloseListener {
+            searchViewAuto!!.getRecycleViewResults()!!.hide()
+            searchViewAuto!!.getTextViewPlaceHolder()!!.hide()
+            false
+        }
     }
 
     private fun initViewModelObservers() {
@@ -209,13 +258,15 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             placesSearchLiveDataState.observe(this@LocationPickerFragmentWithSearchBar, Observer {
                 handlePlaceSearchState(it)
             })
-
         }
     }
 
     private fun handlePlaceSearchState(state: RequestDataState<java.util.ArrayList<PlaceAutoComplete>>?) {
         when(state){
-            is RequestDataState.LoadingShow->{onAutoCompleteSearchStart()}
+            is RequestDataState.LoadingShow->{
+                showSearchProgress()
+                onAutoCompleteSearchStart()}
+            is RequestDataState.LoadingFinished->hideSearchProgress()
             is RequestDataState.Success->{
                 onAutoCompleteSearchFinised(state.data.size>0)
                 placesSearchResultAdapter?.setResultList(state.data)
@@ -228,9 +279,15 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
     }
 
-    open fun onAutoCompleteSearchFailure(exception: Throwable) {
-
+    private fun showSearchProgress() {
+        searchViewAuto!!.getProgressBar()!!.show()
     }
+
+
+    private fun hideSearchProgress() {
+        searchViewAuto!!.getProgressBar()!!.hide()
+    }
+
 
     fun getAutoCompleteSearchResultList():List<PlaceAutoComplete>{
         return searchResultList
@@ -262,11 +319,10 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     private fun handleLocationAddressState(state: RequestDataState<LocationAddress>?) {
         when(state){
-            is RequestDataState.LoadingShow->{setMarkerTitle("loading...")}
+            is RequestDataState.LoadingShow->{setMarkerTitle(loadingTextPlaceHolder)}
 
             is RequestDataState.Success->{
                 state.data.addressName?.let { setMarkerTitle(it) }
-                Log.i("onGetLocationAddressL","${state.data}")
                 onGetLocationAddress(state.data)
 
             }
@@ -279,6 +335,13 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     open fun onGetLocationAddressFailure(exception: Throwable) {
 
+    }
+
+    fun setMarkerLoadingText(text:String){
+        loadingTextPlaceHolder = text
+    }
+    fun setPickedLocation(latLng: LatLng){
+        addMarkerAndMoveToSelectedLocation(googleMap,latLng)
     }
 
     fun setMarkerTitle(title:String){
@@ -716,7 +779,6 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     inner class GpsLocationReceiver : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
-            Log.w("GpsLocationReceiver", "onReceive ${intent.action}")
             if (intent.action?.equals(providerChanges) == true) {
                 val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -736,9 +798,6 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     }
 
     open fun onGetLocationAddress(locationAddress: LocationAddress) {}
-
-
-
 
     private fun showErrorAlertToUser(msg: String) {
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">softartch-lib</string>
+    <string name="no_result">No Result</string>
 </resources>

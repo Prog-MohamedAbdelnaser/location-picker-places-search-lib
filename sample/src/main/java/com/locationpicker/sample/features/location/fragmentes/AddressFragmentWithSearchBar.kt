@@ -16,47 +16,12 @@ import kotlinx.android.synthetic.main.fragment_location.*
 
 class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
 
-    override fun setGoogleAPIKEY(): String =""
+    override fun setGoogleAPIKEY(): String =getString(R.string.google_maps_key)
 
     override fun mapViewResource(): MapView =mapView
 
     override fun layoutResource(): Int = R.layout.fragment_location
 
-    override fun onAutoCompleteSearchFailure(exception: Throwable) {
-        searchViewAuto.getRecycleViewResults()!!.hide()
-        progressBar.hide()
-        tvSearchPlaceHolderMessage.show()
-        tvSearchPlaceHolderMessage.text=exception.message
-        //searchViewAuto.getSearchView()?.setQuery("", true);
-
-    }
-    override fun clickPickedPlace(locationName:String) {
-        searchViewAuto.getRecycleViewResults()!!.hide()
-        progressBar.hide()
-        tvSearchPlaceHolderMessage.hide()
-        //searchViewAuto.getSearchView()?.setQuery("", true);
-        searchViewAuto.getSearchView()?.clearFocus()
-
-    }
-
-
-
-    override fun onAutoCompleteSearchStart() {
-        searchViewAuto.getRecycleViewResults()!!.show()
-        progressBar.show()
-
-    }
-
-    override fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {
-        searchViewAuto.getRecycleViewResults()!!.show()
-        progressBar.hide()
-        if (resultIsNotEmpty.not()){
-            searchViewAuto.getRecycleViewResults()!!.hide()
-            tvSearchPlaceHolderMessage.show()
-            tvSearchPlaceHolderMessage.text = getString(R.string.no_result)
-        }
-
-    }
 
     override fun onViewInflated(parentView: View, childView: View) {
         super.onViewInflated(parentView, childView)
@@ -64,17 +29,17 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
         //to fillter auto complete  search result
         // setSearchLocalizationFilter(SAUDIA_FILTER)
 
-        initRecycleView()
 
-        initAutoSearchQuery()
 
         // to initialize map location pin
         setMapPickLoctionIcon(R.drawable.ic_location)
+        setSearchViewAutoComplete(searchViewAuto)
+        //initAutoSearchQuery()
 
     }
 
     private fun initAutoSearchQuery() {
-
+/*
         searchViewAuto.getSearchView()?.setOnQueryTextListener(object :SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -95,14 +60,7 @@ class AddressFragmentWithSearchBar : LocationPickerFragmentWithSearchBar(){
             searchViewAuto.getRecycleViewResults()!!.hide()
             tvSearchPlaceHolderMessage.hide()
             false
-        }
-    }
-
-    private fun initRecycleView() {
-
-        // todo  initialize recycler in search view adapter to set in it auto complete search result adapter
-        val adapter=getAutoCompleteSearchResultAdapter()
-        adapter?.let { searchViewAuto.setAdapter(it) }
+        }*/
     }
 
     override fun onGetLocationAddress(locationAddress: LocationAddress) {

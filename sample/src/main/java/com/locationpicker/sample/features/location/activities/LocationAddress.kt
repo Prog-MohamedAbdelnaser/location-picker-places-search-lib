@@ -8,11 +8,12 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.google.android.gms.maps.MapView
 import com.locationpicker.sample.R
+import com.locationpicker.sample.base.activity.BaseActivity
 import com.softartch_lib.locationpicker.LocationAddress
 import com.softartch_lib.locationpicker.LocationPickerDialog
 import kotlinx.android.synthetic.main.location_dialog.*
 
-class LocationAddress: com.locationpicker.sample.base.activity.BaseActivity() {
+class LocationAddress: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,33 +24,37 @@ class LocationAddress: com.locationpicker.sample.base.activity.BaseActivity() {
         if (prev != null) {
             fragmentTransaction.remove(prev)
         }
-        fragmentTransaction.addToBackStack(null)*/
+        fragmentTransaction.addToBackStack(null)
+
         val dialogFragment = LocationPicker() //here MyDialog is my custom dialog
-        dialogFragment.show(supportFragmentManager, "dialog")
+        dialogFragment.show(supportFragmentManager, "dialog")*/
     }
 
-}
-class LocationPicker: LocationPickerDialog() {
-    override fun layoutResource(): Int =R.layout.location_dialog
+    class LocationPicker : LocationPickerDialog() {
+        override fun layoutResource(): Int = R.layout.location_dialog
 
-    override fun mapViewResource(): MapView=mapView
+        override fun mapViewResource(): MapView = mapView
 
-    override fun setGoogleAPIKEY(): String ="AIzaSyAU6Pf-8uWRgWcDyfaCdKgw-uINqGIsi3E"
+        override fun setGoogleAPIKEY(): String = "AIzaSyAU6Pf-8uWRgWcDyfaCdKgw-uINqGIsi3E"
 
-    override fun onStart() {
-        super.onStart()
-        requireDialog().window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+        override fun onStart() {
+            super.onStart()
+            requireDialog().window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT
+            )
 
-    }
+        }
 
 
-    override fun onViewInflated(parentView: View, childView: View) {
-        super.onViewInflated(parentView, childView)
-        requireDialog().window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        override fun onViewInflated(parentView: View, childView: View) {
+            super.onViewInflated(parentView, childView)
+            requireDialog().window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-    }
+        }
 
-    override fun onGetLocationAddress(locationAddress: LocationAddress) {
-        super.onGetLocationAddress(locationAddress)
+        override fun onGetLocationAddress(locationAddress: LocationAddress) {
+            super.onGetLocationAddress(locationAddress)
+        }
     }
 }
