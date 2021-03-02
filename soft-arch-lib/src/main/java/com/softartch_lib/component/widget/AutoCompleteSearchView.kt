@@ -1,24 +1,52 @@
 package com.softartch_lib.component.widget
 
 import android.content.Context
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
+import android.text.style.StyleSpan
 import android.util.AttributeSet
+import android.util.Log
+import android.view.View
 import android.widget.*
-import androidx.annotation.Nullable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Tasks
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.softartch_lib.R
 import com.softartch_lib.component.extension.hide
+import com.softartch_lib.component.extension.show
+import com.softartch_lib.exceptions.ApiKeyRequiredException
+import com.softartch_lib.locationpicker.PlaceAutoComplete
+import com.softartch_lib.locationpicker.PlacesSearchResultAdapter
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 
-class AutoCompleteSearchView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class AutoCompleteSearchView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs),
+    PlacesSearchResultAdapter.ClickPlaceItemListener {
 
+    val token = AutocompleteSessionToken.newInstance()
+    private var localizationFillter :String =""
     private var recyclerViewResults:RecyclerView? = null
     private var searchView:SearchView? = null
     private var tvPlaceHolderMessage:TextView?=null
     private var progressBar:ProgressBar?=null
+    var placesClient: PlacesClient?=null
+    private var placesSearchResultAdapter : PlacesSearchResultAdapter?=null
 
     init {
+
+
         orientation=VERTICAL
-        searchView =getSearchViewLayout(this.context)
+        searchView =createSearchViewLayout(this.context)
         addView(searchView)
         recyclerViewResults =getRecycleViewLayout(this.context)
         recyclerViewResults?.layoutManager = LinearLayoutManager(this.context)
@@ -32,8 +60,39 @@ class AutoCompleteSearchView(context: Context?, attrs: AttributeSet?) : LinearLa
 
         progressBar!!.hide()
         tvPlaceHolderMessage!!.hide()
+
+
+
     }
 
+    fun initComponent(apiKey:String): AutoCompleteSearchView {
+
+        try {
+            if (!Places.isInitialized()) {
+                Places.initialize(this.context, apiKey)
+            }
+
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
+        try {
+            placesClient = Places.createClient(this.context!!)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
+        placesSearchResultAdapter = PlacesSearchResultAdapter(this.context,localizationFillter?:"")
+        placesSearchResultAdapter!!.setClickListener(this)
+        initSearchViewRecyclerView()
+        initSearchQueryListener()
+        return this
+    }
+
+    fun setLocalizationFilter(localizationName: String): AutoCompleteSearchView {
+        localizationFillter = localizationName
+        return this
+    }
 
 
     private fun getProgressBarLayout(context: Context?):ProgressBar{
@@ -50,11 +109,11 @@ class AutoCompleteSearchView(context: Context?, attrs: AttributeSet?) : LinearLa
         return textView
     }
 
-   private fun getSearchViewLayout(context: Context?):SearchView{
+   private fun createSearchViewLayout(context: Context?):SearchView{
         val searchView = SearchView(context)
         val lp = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
        searchView.layoutParams = lp
-        return searchView
+       return searchView
     }
 
    private fun getRecycleViewLayout(context: Context):RecyclerView{
@@ -75,6 +134,143 @@ class AutoCompleteSearchView(context: Context?, attrs: AttributeSet?) : LinearLa
     fun getProgressBar()=progressBar
 
     fun getTextViewPlaceHolder()=tvPlaceHolderMessage
+
+    fun initCustomSearchView(searchView: SearchView){
+        this.searchView =searchView
+    }
+
+    private fun initSearchQueryListener(){
+        getSearchView()?.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty().not()) {
+                    searchQueryListener(newText!!)
+                }else{
+                    getRecycleViewResults()!!.hide()
+                }
+                return false
+            }
+        })
+
+        getSearchView()?.setOnCloseListener {
+            getRecycleViewResults()!!.hide()
+            getTextViewPlaceHolder()!!.hide()
+            false
+        }
+    }
+
+    private fun searchQueryListener(newText: String) {
+        getPredictions(newText,"")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {onAutoCompleteSearchStart() }
+            .doFinally {  getProgressBar()!!.hide()}
+            .doOnError{onAutoCompleteSearchFailure(it)}
+            .doOnSuccess {data->
+                onAutoCompleteSearchFinised(data.size>0)
+                placesSearchResultAdapter?.setResultList(data)
+                placesSearchResultAdapter?.notifyDataSetChanged()
+            }.subscribe()
+    }
+
+   private fun initSearchViewRecyclerView(){
+        val adapter=placesSearchResultAdapter
+        adapter?.let {setAdapter(it) }
+    }
+
+    open fun onAutoCompleteSearchFailure(exception: Throwable) {
+        exception.printStackTrace()
+        getRecycleViewResults()!!.hide()
+        getProgressBar()!!.hide()
+        getTextViewPlaceHolder()!!.show()
+        getTextViewPlaceHolder()!!.text=exception.message
+    }
+
+    open fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {
+        getRecycleViewResults()!!.show()
+        getProgressBar()!!.hide()
+        if (resultIsNotEmpty.not()){
+            getRecycleViewResults()!!.hide()
+            getTextViewPlaceHolder()!!.show()
+            getTextViewPlaceHolder()!!.text = "No Result"
+        }else{
+            placesSearchResultAdapter?.clearItems()
+
+        }
+    }
+
+    open fun onAutoCompleteSearchStart() {
+        getRecycleViewResults()!!.show()
+        getProgressBar()!!.show()
+    }
+
+    private  fun getPredictions(constraint: CharSequence,localizationFillter:String):
+            Single<ArrayList<PlaceAutoComplete>> {
+
+        return Single.create<ArrayList<PlaceAutoComplete>> { emitter->
+
+            if (placesClient==null){
+                emitter.onError(ApiKeyRequiredException(message = "ApiKeyRequiredException"))
+                return@create
+            }
+            val STYLE_NORMAL = StyleSpan(Typeface.NORMAL)
+            val STYLE_BOLD = StyleSpan(Typeface.BOLD)
+
+            val resultList = ArrayList<PlaceAutoComplete>()
+
+            val request = FindAutocompletePredictionsRequest.builder()
+                .setSessionToken(token)
+                .setQuery(constraint.toString())
+                .setCountry(localizationFillter)
+                .setTypeFilter(TypeFilter.ADDRESS)
+                .build()
+
+
+            val autoCompletePredictions = placesClient?.findAutocompletePredictions(request)
+
+            Tasks.await(autoCompletePredictions!!, 60, TimeUnit.SECONDS)
+
+            autoCompletePredictions.addOnSuccessListener {
+
+                if (it.autocompletePredictions.isNullOrEmpty().not()){
+
+                    it.autocompletePredictions.iterator().forEach { it ->
+                        Log.i("getPredictions","getPredictions ${it.toString()}")
+                        resultList.add(
+                            PlaceAutoComplete(
+                            it.placeId,
+                            it.getPrimaryText(STYLE_NORMAL).toString(),
+                            it.getFullText(STYLE_BOLD).toString())
+                        )
+                    }
+                    emitter.onSuccess(resultList)
+                }else{
+                    onAutoCompleteSearchFinised(false)
+                    println("ON EMPTY LIST SEARCH")
+                }
+
+            }.addOnFailureListener {
+                emitter.onError(it)
+            }
+
+        }
+    }
+
+    override fun clickPickedPlace(place: Place) {
+
+    }
+
+
+    override fun clickPickedPlace(locationName: String) {
+        getRecycleViewResults()!!.hide()
+        getProgressBar()!!.hide()
+        getTextViewPlaceHolder()!!.hide()
+        getSearchView()?.clearFocus()
+    }
 
 
 }

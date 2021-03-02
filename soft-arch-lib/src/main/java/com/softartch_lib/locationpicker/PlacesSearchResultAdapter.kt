@@ -48,6 +48,11 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
         mResultList=resultList
     }
 
+    fun clearItems(){
+        mResultList.clear()
+        notifyDataSetChanged()
+    }
+
     fun setClickListener(clickPlaceItemListener: ClickPlaceItemListener) {
         this.clickPlaceItemListener = clickPlaceItemListener
     }
@@ -72,7 +77,6 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
 
     override fun onBindViewHolder(holder: PredictionHolder, position: Int) {
         holder.address.text = mResultList[position].placeFullDescription.toString()
-        Toast.makeText(context, mResultList[position].placeName.toString(), Toast.LENGTH_LONG).show()
 
     }
 
@@ -97,12 +101,18 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
                         clickPlaceItemListener.clickPickedPlace(place)
                          clickPlaceItemListener. clickPickedPlace(place.address!!)
 
+                    println("addOnSuccessListener")
 
                 }?.addOnFailureListener { p0 ->
                     if (p0 is ApiException) {
                         Log.d("Home Activity ->", p0.message)
-                        Toast.makeText(context, p0.message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "ERROR "+p0.message, Toast.LENGTH_LONG).show()
                     }
+                }?.addOnCompleteListener {
+                    println("addOnCompleteListener")
+                }?.addOnCanceledListener {
+                    println("addOnCanceledListener")
+
                 }
 
             }
