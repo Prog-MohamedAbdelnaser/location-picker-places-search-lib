@@ -54,6 +54,7 @@ import io.reactivex.SingleSource
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import kotlin.collections.ArrayList
 
 
@@ -324,13 +325,16 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             is RequestDataState.Success->{
                 state.data.addressName?.let { setMarkerTitle(it) }
                 onGetLocationAddress(state.data)
-
             }
             is RequestDataState.Error->{
                 state.exception.printStackTrace()
                 onGetLocationAddressFailure(state.exception)
             }
         }
+    }
+
+    open fun onPermissionDenied(){
+
     }
 
     open fun onGetLocationAddressFailure(exception: Throwable) {
@@ -356,25 +360,27 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
             enableMapTypeControls(this)
 
             setupGoogleMap(this)
-            disposable = checkPermission()
-                    .flatMap(requestLocationPermissionFunction())
-                    .doOnSuccess {
-                        listenToGPSChanges()
-                    }
-                    .flatMap(requestLocationServiceSettingFunction())
-                    .subscribe({
-                        startLocationTracking(googleMap)
-                    }, {
-                        if (it is PermissionDeniedException) {
-
-                            // todo if you need to show user popup with permission need description
-                        } else {
-                       // showErrorSnackbar(requireView(), getString(R.string.wont_detect_location))
-                        }
-                    })
-
+            initLocationCallBack()
             setHasOptionsMenu(true)
         }
+    }
+
+    private fun initLocationCallBack() {
+        disposable = checkPermission()
+            .flatMap(requestLocationPermissionFunction())
+            .doOnSuccess { listenToGPSChanges() }
+            .flatMap(requestLocationServiceSettingFunction())
+            .subscribe({
+                startLocationTracking(googleMap)
+            }, {
+                if (it is PermissionDeniedException) {
+                    Timber.i("ON PREMSION ERROR ${it}")
+                    onPermissionDenied()
+                    // todo if you need to show user popup with permission need description
+                } else {
+                    // showErrorSnackbar(requireView(), getString(R.string.wont_detect_location))
+                }
+            })
     }
 
     private fun startLocationTracking(googleMap: GoogleMap?) {
@@ -544,7 +550,12 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     private fun requestLocationPermissionSingle(): Single<Boolean> {
         return Single.create<Boolean> {
             permissionEmitter = it
-            requestPermissions(arrayOf(locationPermission), locationPermissionRequestCode)
+            Timber.i("ON PREMSION shouldShowRequestPermissionRationale${shouldShowRequestPermissionRationale(locationPermission)}")
+            if (shouldShowRequestPermissionRationale(locationPermission)) {
+                requestPermissions(arrayOf(locationPermission), locationPermissionRequestCode)
+            }else{
+                it.onError(PermissionDeniedException())
+            }
         }
     }
 
@@ -661,6 +672,8 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
                                             grantResults: IntArray) {
+        Timber.i("ON  PREMSION")
+
         if (requestCode == locationPermissionRequestCode) {
             if (grantResults.isNotEmpty() && grantResults[0] == PermissionChecker.PERMISSION_GRANTED) {
                 permissionEmitter?.apply {
@@ -670,6 +683,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                     }
                 }
             } else {
+                Timber.i("ON REJECT PREMSION")
                 permissionEmitter?.apply {
                     if (!isDisposed) {
                         onError(PermissionDeniedException())
@@ -799,7 +813,8 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
 
     open fun onGetLocationAddress(locationAddress: LocationAddress) {}
 
-    private fun showErrorAlertToUser(msg: String) {
+
+     fun showErrorAlertToUser(msg: String) {
 
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setMessage(msg)
