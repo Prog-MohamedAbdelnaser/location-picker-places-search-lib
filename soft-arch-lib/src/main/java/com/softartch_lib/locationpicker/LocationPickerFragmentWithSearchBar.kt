@@ -222,6 +222,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         locationViewModel.filter(newText,localizationFillter)
     }
 
+
     private fun initSearchQueryListener(){
         searchViewAuto!!.getSearchView()?.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -365,7 +366,7 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
         }
     }
 
-    private fun initLocationCallBack() {
+    public fun initLocationCallBack() {
         disposable = checkPermission()
             .flatMap(requestLocationPermissionFunction())
             .doOnSuccess { listenToGPSChanges() }
@@ -377,8 +378,6 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
                     Timber.i("ON PREMSION ERROR ${it}")
                     onPermissionDenied()
                     // todo if you need to show user popup with permission need description
-                } else {
-                    // showErrorSnackbar(requireView(), getString(R.string.wont_detect_location))
                 }
             })
     }
@@ -550,13 +549,13 @@ abstract class LocationPickerFragmentWithSearchBar : BaseFragment(), OnMapReadyC
     private fun requestLocationPermissionSingle(): Single<Boolean> {
         return Single.create<Boolean> {
             permissionEmitter = it
-            Timber.i("ON PREMSION shouldShowRequestPermissionRationale${shouldShowRequestPermissionRationale(locationPermission)}")
-            if (shouldShowRequestPermissionRationale(locationPermission)) {
+            requestPermissions(arrayOf(locationPermission), locationPermissionRequestCode)
+            /*   if (shouldShowRequestPermissionRationale(locationPermission)) {
                 requestPermissions(arrayOf(locationPermission), locationPermissionRequestCode)
             }else{
                 it.onError(PermissionDeniedException())
             }
-        }
+        */}
     }
 
     private fun requestLocationServiceSettingFunction() =
