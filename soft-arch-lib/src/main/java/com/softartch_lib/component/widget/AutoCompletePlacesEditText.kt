@@ -83,10 +83,12 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
         this.removeAllViews()
          orientation=VERTICAL
             searchView =editText
-            addView(editTextParentView)
+
+        val frameLayout = FrameLayout(context)
+        frameLayout.addView(editTextParentView)
             recyclerViewResults =getRecycleViewLayout(this.context)
             recyclerViewResults?.layoutManager = LinearLayoutManager(this.context)
-            addView(recyclerViewResults)
+        frameLayout.addView(recyclerViewResults)
 
             tvPlaceHolderMessage=getTextViewLayout(context)
             addView(tvPlaceHolderMessage)
@@ -254,6 +256,7 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
    private fun getRecycleViewLayout(context: Context):RecyclerView{
         val recyclerView = RecyclerView(context)
         val lp = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+
        recyclerView.layoutParams = lp
         return recyclerView
     }
