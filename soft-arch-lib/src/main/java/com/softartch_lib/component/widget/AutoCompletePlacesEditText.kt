@@ -42,6 +42,7 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
         fun onSearchResult(place: Place)
     }
 
+    private var isEnableSearch: Boolean =true
     val token = AutocompleteSessionToken.newInstance()
     private var localizationFillter :String =""
     private var recyclerViewResults:RecyclerView? = null
@@ -84,21 +85,16 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
          orientation=VERTICAL
             searchView =editText
 
-        val frameLayout = FrameLayout(context)
-        frameLayout.addView(editTextParentView)
-            recyclerViewResults =getRecycleViewLayout(this.context)
-            recyclerViewResults?.layoutManager = LinearLayoutManager(this.context)
-        frameLayout.addView(recyclerViewResults)
-
-            tvPlaceHolderMessage=getTextViewLayout(context)
-            addView(tvPlaceHolderMessage)
-
-            progressBar=getProgressBarLayout(context)
-            addView(progressBar)
-
-            progressBar!!.hide()
-            tvPlaceHolderMessage!!.hide()
-
+        addView(editTextParentView)
+        recyclerViewResults =getRecycleViewLayout(this.context)
+        recyclerViewResults?.layoutManager = LinearLayoutManager(this.context)
+        addView(recyclerViewResults)
+        tvPlaceHolderMessage=getTextViewLayout(context)
+        addView(tvPlaceHolderMessage)
+        progressBar=getProgressBarLayout(context)
+        addView(progressBar)
+        progressBar!!.hide()
+        tvPlaceHolderMessage!!.hide()
 
     }
 
@@ -265,17 +261,13 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
         recyclerViewResults?.adapter=adapter
     }
 
-    fun getRecycleViewResults()=recyclerViewResults
+    private fun getRecycleViewResults()=recyclerViewResults
 
     fun getSearchView()=searchView
 
-    fun getProgressBar()=progressBar
+    private fun getProgressBar()=progressBar
 
-    fun getTextViewPlaceHolder()=tvPlaceHolderMessage
-
-    fun initCustomEditText(searchView: EditText){
-        this.searchView =searchView
-    }
+    private fun getTextViewPlaceHolder()=tvPlaceHolderMessage
 
     private fun initSearchQueryListener(){
 
@@ -288,10 +280,14 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
             false
         }*/
         searchView?.doOnTextChanged { text, start, count, after ->
-            if (!searchView?.text.isNullOrEmpty()) {
-                searchQueryListener(searchView?.text.toString())
+            if (isEnableSearch) {
+                if (!searchView?.text.isNullOrEmpty()) {
+                    searchQueryListener(searchView?.text.toString())
+                } else {
+                    getRecycleViewResults()!!.hide()
+                }
             }else{
-                getRecycleViewResults()!!.hide()
+                isEnableSearch =true
             }
         }
         searchView?.inputType=InputType.TYPE_CLASS_TEXT
@@ -324,7 +320,7 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
         adapter?.let {setAdapter(it) }
     }
 
-    open fun onAutoCompleteSearchFailure(exception: Throwable) {
+    private fun onAutoCompleteSearchFailure(exception: Throwable) {
         exception.printStackTrace()
         getRecycleViewResults()!!.hide()
         placesSearchResultAdapter?.clearItems()
@@ -333,7 +329,7 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
         getTextViewPlaceHolder()!!.text=exception.message
     }
 
-    open fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {
+    private fun onAutoCompleteSearchFinised(resultIsNotEmpty: Boolean) {
         getRecycleViewResults()!!.show()
         getProgressBar()!!.hide()
         if (!resultIsNotEmpty){
@@ -346,7 +342,7 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
         }
     }
 
-    open fun onAutoCompleteSearchStart() {
+    private fun onAutoCompleteSearchStart() {
         getRecycleViewResults()!!.show()
         getProgressBar()!!.show()
     }
@@ -406,6 +402,17 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
 
     override fun clickPickedPlace(place: Place) {
         mAutoCompleteSearchViewListener?.onSearchResult(place)
+    }
+
+    fun setText(text:String,search:Boolean){
+        isEnableSearch = search
+        searchView?.setText(text)
+    }
+
+
+    fun setText(text:String){
+        isEnableSearch = false
+        searchView?.setText(text)
     }
 
 
