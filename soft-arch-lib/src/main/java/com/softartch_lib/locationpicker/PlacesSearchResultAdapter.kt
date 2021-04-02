@@ -93,7 +93,9 @@ class PlacesSearchResultAdapter(val context: Context,var localizationFillter:Str
 
                 val item = mResultList[adapterPosition]
                 val placeId = item.placeId.toString()
-                val placeFields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.ADDRESS)
+                val placeFields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG,
+                    Place.Field.PLUS_CODE,
+                    Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS)
                 val request = FetchPlaceRequest.builder(placeId, placeFields).build()
 
                 placesClient?.fetchPlace(request)?.addOnSuccessListener { p0 ->
