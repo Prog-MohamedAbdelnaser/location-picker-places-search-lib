@@ -302,7 +302,7 @@ class AutoCompletePlacesEditText(context: Context?, attrs: AttributeSet?) : Line
     }
 
     private fun searchQueryListener(newText: String) {
-        getPredictions(newText, "")
+        getPredictions(newText, localizationFillter)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {onAutoCompleteSearchStart() }

@@ -130,7 +130,7 @@ class AutoCompletePlacesController(val context: Context) :
     }
 
     private fun searchQueryListener(newText: String) {
-        getPredictions(newText, "")
+        getPredictions(newText, localizationFillter)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {onAutoCompleteSearchStart() }

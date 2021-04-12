@@ -14,9 +14,7 @@ val locationModule= module {
 
     factory { Geocoder(androidApplication(), Locale.getDefault()) }
 
-    factory {
-        LocationAddressRepository(get(), "service not available", "location not valid", "location not valid")
-    }
+    factory { LocationAddressRepository(get(), "service not available", "location not valid", "location not valid") }
 
     factory { LocationAddressUseCase(get()) }
 
