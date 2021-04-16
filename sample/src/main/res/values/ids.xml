@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnRetry" type="id"/>
+    <item name="fragmentSplash" type="id"/>
+    <item name="appBarLout" type="id"/>
+    <item name="drawerNavigationView" type="id"/>
+    <item name="ivUser" type="id"/>
+    <item name="tvUserName" type="id"/>
+    <item name="profileFragment" type="id"/>
+    <item name="notificationsFragment" type="id"/>
+    <item name="homeFragment" type="id"/>
+    <item name="fragmentSetting" type="id"/>
+    <item name="fragmentHelp" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="guidelineStart" type="id"/>
+    <item name="tvTitle" type="id" />
+    <item name="inputPassword" type="id" />
+    <item name="btnLogin" type="id" />
+    <item name="ivLogo" type="id" />
+    <item name="loutLanguage" type="id" />
+    <item name="loutFeedback" type="id" />
+    <item name="loutUser" type="id" />
+    <item name="loutLogout" type="id" />
+    <item name="tvDontHaveAnAccount" type="id" />
+    <item name="tvRegister" type="id" />
+    <item name="inputPhoneLout" type="id" />
+    <item name="btnNext" type="id" />
+    <item name="tvResend" type="id" />
+    <item name="tvTimer" type="id" />
+    <item name="inputPhoneNumber" type="id" />
+    <item name="tvAddress" type="id" />
+    <item name="tvLogin" type="id" />
+    <item name="btnSignUp" type="id" />
+    <item name="navHostFragment" type="id" />
+</resources>

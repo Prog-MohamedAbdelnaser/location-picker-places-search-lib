@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.locationpicker.sample.features.location.activities.HomeFragment"
+        android:label="fragment_home2"
+        tools:layout="@layout/fragment_home2" >
+        <action
+            android:id="@+id/action_homeFragment_to_addressFragmentWithCustomSearchComponent"
+            app:destination="@id/addressFragmentWithCustomSearchComponent" />
+        <action
+            android:id="@+id/action_homeFragment_to_locationPickerFragmentWithSearchBar"
+            app:destination="@id/locationPickerFragmentWithSearchBar" />
+        <action
+            android:id="@+id/action_homeFragment_to_addressFragmentWithSearchContoller"
+            app:destination="@id/addressFragmentWithSearchContoller" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragmentWithCustomSearchComponent"
+        android:name="com.locationpicker.sample.features.location.fragmentes.AddressFragmentWithCustomSearchComponent"
+        android:label="AddressFragmentWithCustomSearchComponent" />
+    <fragment
+        android:id="@+id/addressFragmentWithSearchContoller"
+        android:name="com.locationpicker.sample.features.location.fragmentes.AddressFragmentWithSearchContoller"
+        android:label="AddressFragmentWithSearchContoller" />
+    <fragment
+        android:id="@+id/locationPickerFragmentWithSearchBar"
+        android:name="com.locationpicker.sample.features.location.fragmentes.AddressFragmentWithSearchBar"
+        android:label="LocationPickerFragmentWithSearchBar" />
+</navigation>

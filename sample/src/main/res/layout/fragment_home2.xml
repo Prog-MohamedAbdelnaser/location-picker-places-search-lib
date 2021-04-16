@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".features.location.activities.HomeFragment">
+    <TextView
+        android:id="@+id/tvMapFragmentWithPlacesSearch"
+        android:text="MapFragmentWithPlacesSearch"
+        android:layout_width="match_parent"
+        android:background="?selectableItemBackground"
+        android:gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:layout_height="50dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorGrayLight"
+        />
+
+    <TextView
+        android:id="@+id/tvMapFragmentWithCustomPlacesSearch"
+        android:text="MapFragmentWithCustomPlacesSearch"
+        android:layout_width="match_parent"
+        android:background="?selectableItemBackground"
+
+        android:gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:layout_height="50dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorGrayLight"
+        />
+
+    <TextView
+        android:id="@+id/tvMapFragmentWithCustomPlacesSearchController"
+        android:text="MapFragmentWithCustomPlacesSearchController"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="?selectableItemBackground"
+        android:layout_margin="8dp"
+        android:layout_height="50dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorGrayLight"
+        />
+    <TextView
+        android:id="@+id/tvLocationPickerDialog"
+        android:text="LocationPickerDialog"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="?selectableItemBackground"
+        android:layout_margin="8dp"
+        android:layout_height="50dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorGrayLight"
+        />
+</LinearLayout>
