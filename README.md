@@ -98,5 +98,6 @@ Add com.softartch_lib.component.widget.AutoCompleteSearchView  and map view to m
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+### Full explanation for all features
+    * https://youtu.be/T7DUjyEYwBE
 
