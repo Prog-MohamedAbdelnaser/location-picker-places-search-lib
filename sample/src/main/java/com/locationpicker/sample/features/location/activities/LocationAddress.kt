@@ -6,6 +6,9 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.navigateUp
 import com.google.android.gms.maps.MapView
 import com.locationpicker.sample.R
 import com.locationpicker.sample.base.activity.BaseActivity
@@ -15,9 +18,11 @@ import kotlinx.android.synthetic.main.location_dialog.*
 
 class LocationAddress: BaseActivity() {
 
+    lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location)
+        navController =  findNavController(R.id.fragmentNav)
 /*
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val prev = supportFragmentManager.findFragmentByTag("dialog")
@@ -30,31 +35,7 @@ class LocationAddress: BaseActivity() {
         dialogFragment.show(supportFragmentManager, "dialog")*/
     }
 
-    class LocationPicker : LocationPickerDialog() {
-        override fun layoutResource(): Int = R.layout.location_dialog
-
-        override fun mapViewResource(): MapView = mapView
-
-        override fun setGoogleAPIKEY(): String = "AIzaSyAU6Pf-8uWRgWcDyfaCdKgw-uINqGIsi3E"
-
-        override fun onStart() {
-            super.onStart()
-            requireDialog().window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT
-            )
-
-        }
-
-
-        override fun onViewInflated(parentView: View, childView: View) {
-            super.onViewInflated(parentView, childView)
-            requireDialog().window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        }
-
-        override fun onGetLocationAddress(locationAddress: LocationAddress) {
-            super.onGetLocationAddress(locationAddress)
-        }
+    override fun onBackPressed() {
+        navController.navigateUp()
     }
 }
