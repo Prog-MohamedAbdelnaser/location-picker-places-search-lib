@@ -180,6 +180,8 @@ abstract class LocationPickerDialog: DialogFragment(), OnMapReadyCallback,
             inflate()
 
         }
+        requireDialog().window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
 
     }
 
@@ -733,6 +735,7 @@ abstract class LocationPickerDialog: DialogFragment(), OnMapReadyCallback,
 
     override fun onStart() {
         super.onStart()
+
         requireDialog().window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
         mapViewResource()?.onStart()
         startLocationUpdate()

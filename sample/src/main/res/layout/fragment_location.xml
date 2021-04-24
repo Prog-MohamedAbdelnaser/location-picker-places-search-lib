@@ -11,7 +11,7 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:cameraTargetLat="23.91895493226023"
         app:cameraTargetLng="45.43327666819095"
         app:layout_constraintBottom_toTopOf="@id/btnSave"
@@ -23,9 +23,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="64dp"
         />
     <Button
 

@@ -15,28 +15,7 @@ class LocationPicker : LocationPickerDialog() {
 
     override fun mapViewResource(): MapView = mapView
 
-    override fun setGoogleAPIKEY(): String = "AIzaSyAU6Pf-8uWRgWcDyfaCdKgw-uINqGIsi3E"
+    //todo set you api key here
+    override fun setGoogleAPIKEY(): String  = ""
 
-    override fun onStart() {
-        super.onStart()
-        requireDialog().window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-
-    }
-
-
-    override fun onViewInflated(parentView: View, childView: View) {
-        super.onViewInflated(parentView, childView)
-        requireDialog().window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        btnSave.setOnClickListener {
-            requireActivity().onBackPressed()
-            dismiss()
-        }
-    }
-
-    override fun onGetLocationAddress(locationAddress: LocationAddress) {
-        super.onGetLocationAddress(locationAddress)
-    }
 }
